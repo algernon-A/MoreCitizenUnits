@@ -31,14 +31,6 @@ namespace MoreCitizenUnits
                 PatchModMethod(harmony, tmpe.GetType("TrafficManager.Manager.Impl.VehicleBehaviorManager"), "ParkPassengerCar");
                 PatchModMethod(harmony, tmpe.GetType("TrafficManager.Patch._VehicleAI._PassengerCarAI.ParkVehiclePatch"), "Prefix");
             }
-
-            // Real Time.
-            Assembly realTime = ModUtils.GetEnabledAssembly("RealTime");
-            if (realTime != null)
-            {
-                Logging.Message("reflecting Real Time");
-                PatchModMethod(harmony, realTime.GetType("RealTime.GameConnection.BuildingManagerConnection"), "BuildingCanBeVisited");
-            }
         }
 
 
@@ -50,9 +42,19 @@ namespace MoreCitizenUnits
         /// <param name="methodName">Method name to reflect</param>
         private static void PatchModMethod(Harmony harmony, Type type, string methodName)
         {
+            // Check that reflection succeeded before proceeding,
             if (type == null)
             {
-                Logging.Error("null param when attempting to patch ", methodName ?? "null");
+                // If this was the ParkVehiclePatch Prefix, not finding it is fine - that's only in TM:PE 11.6+.
+                if (methodName.Equals("Prefix"))
+                {
+                    Logging.Message("TM:PE ParkVehiclePatch not found (this is fine)");
+                }
+                else
+                {
+                    Logging.Error("null type when attempting to patch ", methodName ?? "null");
+                }
+
                 return;
             }
 
