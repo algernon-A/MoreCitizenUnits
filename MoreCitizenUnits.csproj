@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Images\PreviewImage.png" />
     <Content Include="Licence.txt" />
     <Content Include="Translations\en.xml" />
   </ItemGroup>
