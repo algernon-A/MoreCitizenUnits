@@ -1,5 +1,4 @@
 ﻿using ICities;
-using ColossalFramework;
 
 
 namespace MoreCitizenUnits
@@ -9,9 +8,6 @@ namespace MoreCitizenUnits
     /// </summary>
     public class Loading : LoadingExtensionBase
     {
-        // Internal flags.
-        internal static bool isModEnabled = false;
-
         /// <summary>
         /// Called by the game when the mod is initialised at the start of the loading process.
         /// </summary>
@@ -24,23 +20,6 @@ namespace MoreCitizenUnits
             Patcher.PatchMods();
 
             base.OnCreated(loading);
-        }
-
-
-        /// <summary>
-        /// Called by the game when level loading is complete.
-        /// </summary>
-        /// <param name="mode">Loading mode (e.g. game, editor, scenario, etc.)</param>
-        public override void OnLevelLoaded(LoadMode mode)
-        {
-            base.OnLevelLoaded(mode);
-
-            // Set simulation metatdata flag.
-            MetaData.SetMetaData();
-
-            Logging.Message("current CitizenUnit array size is ", Singleton<CitizenManager>.instance.m_units.m_buffer.Length.ToString("N0"), " with m_size ", Singleton<CitizenManager>.instance.m_units.m_size.ToString("N0"));
-
-            Logging.Message("loading complete");
         }
     }
 }

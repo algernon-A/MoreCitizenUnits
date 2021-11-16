@@ -62,6 +62,7 @@
     <Compile Include="Code\Patches\CitizenDeserialize.cs" />
     <Compile Include="Code\Patches\GameLimitTranspiler.cs" />
     <Compile Include="Code\Patches\ModLimitTranspiler.cs" />
+    <Compile Include="Code\Patches\OnLevelLoaded.cs" />
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\SimulationStepImpl.cs" />
     <Compile Include="Code\MetaData.cs" />
