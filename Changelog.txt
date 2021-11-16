@@ -1,0 +1,3 @@
+﻿Version 0.2 -
+
+- Replaced LoadingExtension.OnLevelLoaded with Harmony Postfix
