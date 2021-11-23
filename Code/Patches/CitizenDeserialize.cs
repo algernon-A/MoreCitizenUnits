@@ -80,16 +80,15 @@ namespace MoreCitizenUnits
 
         /// <summary>
         /// Harmony Prefix patch for CitizenManager.Data.Deserialize to determine if this mod was active when the game was saved.
-        /// Highest priority, to try and make sure array resizing is done before any other mod tries to read the array.
+        /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
         /// </summary>
         [HarmonyPriority(Priority.First)]
         public static void Prefix()
         {
-            // Detect if we're loading an expanded or original CitizenUnit array.
-            loadingExpanded = MetaData.LoadingExtended;
-
             Logging.Message("starting CitizenManager.Data.Deserialize Prefix");
 
+            // Detect if we're loading an expanded or original CitizenUnit array.
+            loadingExpanded = MetaData.LoadingExtended;
 
             // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with.
             if (!loadingExpanded)
@@ -105,7 +104,7 @@ namespace MoreCitizenUnits
 
         /// <summary>
         /// Harmony Postfix patch for CitizenManager.Data.Deserialize to ensure proper unused item allocation and count after conversion from vanilla save data.
-        /// Highest priority, to try and make sure array resizing is done before any other mod tries to read the array.
+        /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
         /// </summary>
         [HarmonyPriority(Priority.First)]
         public static void Postfix()
