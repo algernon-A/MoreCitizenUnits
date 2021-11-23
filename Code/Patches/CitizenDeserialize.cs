@@ -88,12 +88,18 @@ namespace MoreCitizenUnits
             // Detect if we're loading an expanded or original CitizenUnit array.
             loadingExpanded = MetaData.LoadingExtended;
 
+            Logging.Message("starting CitizenManager.Data.Deserialize Prefix");
+
+
             // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with.
             if (!loadingExpanded)
             {
+                Logging.Message("expanding from Vanilla save data");
                 CitizenUnit[] units = Singleton<CitizenManager>.instance.m_units.m_buffer;
                 Array.Clear(units, 0, units.Length);
             }
+
+            Logging.Message("finished CitizenManager.Data.Deserialize Prefix");
         }
 
 
@@ -104,6 +110,8 @@ namespace MoreCitizenUnits
         [HarmonyPriority(Priority.First)]
         public static void Postfix()
         {
+            Logging.Message("starting CitizenManager.Data.Deserialize Postfix");
+
             // Only need to do this if converting from vanilla saved data.
             if (!loadingExpanded)
             {
@@ -132,6 +140,8 @@ namespace MoreCitizenUnits
 
                 Logging.Message("completed resetting unused instances; freed unit count was ", freedUnits);
             }
+
+            Logging.Message("finished CitizenManager.Data.Deserialize Postfix");
         }
 
 
