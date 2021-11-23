@@ -16,11 +16,24 @@ namespace MoreCitizenUnits
         /// </summary>
         public static void Postfix()
         {
-            // Set simulation metatdata flag.
-            MetaData.SetMetaData();
+            // Get buffer size.
+            Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
+            int bufferSize = units.m_buffer.Length;
+            Logging.Message("current CitizenUnit array size is ", bufferSize.ToString("N0"), " with m_size ", units.m_size.ToString("N0"));
 
-            Logging.Message("current CitizenUnit array size is ", Singleton<CitizenManager>.instance.m_units.m_buffer.Length.ToString("N0"), " with m_size ", Singleton<CitizenManager>.instance.m_units.m_size.ToString("N0"));
-            Logging.KeyMessage("loading complete");
+            // Check for successful implementation.
+            if (bufferSize == CitizenDeserialze.NewUnitCount)
+            {
+                // Buffer successfully enlarged - set simulation metatdata flag.
+                MetaData.SetMetaData();
+                Logging.KeyMessage("loading complete");
+            }
+            else
+            {
+                // Buffer sizenot changed - log error and undo Harmony patches.
+                Logging.Error("CitizenUnit array size not increased; aborting operation and reverting Harmony patches");
+                Patcher.UnpatchAll();
+            }
         }
     }
 }
