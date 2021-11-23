@@ -1,3 +1,10 @@
-﻿Version 0.2 -
+﻿Version 0.3 -
+
+- Revert Harmony patches if CitizenUnit array resizing didn't work
+- Increase Harmony priority for deserialization Harmony patches
+- Add additional logging messages
+
+
+Version 0.2 -
 
 - Replaced LoadingExtension.OnLevelLoaded with Harmony Postfix

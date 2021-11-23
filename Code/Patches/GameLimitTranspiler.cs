@@ -151,7 +151,7 @@ namespace MoreCitizenUnits
                 if (instruction.opcode == OpCodes.Ldc_I4 && instruction.operand is int thisInt && thisInt == 524288)
                 {
                     // Yes - change operand to our new unit count max.
-                    instruction.operand = (int)CitizenDeserialze.NewUnitCount;
+                    //instruction.operand = (int)CitizenDeserialze.NewUnitCount;
 
                     // Set flag.
                     foundTarget = true;
