@@ -73,7 +73,7 @@ namespace MoreCitizenUnits
             yield return AccessTools.Method(typeof(CitizenManager), nameof(CitizenManager.ReleaseUnits));
             // CitizenManager.ReleaseUnitImplementation has no checks
             // CitizenManager.SimulationStepImpl - simulation framing is here (128 units per step)
-            // CitizenManager.Data.Serialize TODO
+            // CitizenManager.Data.Serialize has no checks
             // CitizenManager.Data.Deserialize is patched in CitizenDeserialze
             // CitizenManager.Data.AfterDeserialize has no checks
             yield return AccessTools.Method(typeof(DisasterHelpers), nameof(DisasterHelpers.RemovePeople));

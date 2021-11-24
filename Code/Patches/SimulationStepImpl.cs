@@ -8,7 +8,6 @@ namespace MoreCitizenUnits
     /// <summary>
     /// Harmony transpiler to increase simulation CitizenUnit frame size to meet new limit.
     /// </summary>
-    [HarmonyPatch(typeof(CitizenManager), "SimulationStepImpl")]
     public static class SimulationStepImplPatch
     {
         /// <summary>

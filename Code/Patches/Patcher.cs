@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Reflection;
+using HarmonyLib;
 using CitiesHarmony.API;
 
 
@@ -65,5 +66,19 @@ namespace MoreCitizenUnits
         ///  Apply Harmony patches to mods.
         /// </summary>
         public static void PatchMods() => ModLimitTranspiler.PatchMods(new Harmony(harmonyID));
+
+
+        /// <summary>
+        /// Applies patches to CitizenManager.SimulationStepImpl to change the simulation frame size for CitizenUnits.
+        /// </summary>
+        public static void TranspileSimulationStep()
+        {
+            Logging.KeyMessage("deploying CitizenManager.SimulationStepImpl transpiler");
+            Harmony harmonyInstance = new Harmony(harmonyID);
+            MethodBase targetMethod = typeof(CitizenManager).GetMethod("SimulationStepImpl", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo patchMethod = typeof(SimulationStepImplPatch).GetMethod(nameof(SimulationStepImplPatch.Transpiler));
+
+            harmonyInstance.Patch(targetMethod, transpiler: new HarmonyMethod(patchMethod));
+        }
     }
 }

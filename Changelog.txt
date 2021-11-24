@@ -1,4 +1,9 @@
-﻿Version 0.3 -
+﻿Version 0.4 -
+
+- Confirm successful array resizing before transpiling CitizenManager.SimulationStepImpl
+
+
+Version 0.3 -
 
 - Revert Harmony patches if CitizenUnit array resizing didn't work
 - Increase Harmony priority for deserialization Harmony patches

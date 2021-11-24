@@ -87,15 +87,27 @@ namespace MoreCitizenUnits
         {
             Logging.Message("starting CitizenManager.Data.Deserialize Prefix");
 
-            // Detect if we're loading an expanded or original CitizenUnit array.
-            loadingExpanded = MetaData.LoadingExtended;
-
-            // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with.
-            if (!loadingExpanded)
+            // Check to see if CitizenUnit array has been correctly resized.
+            Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
+            if (units.m_buffer.Length == NewUnitCount)
             {
-                Logging.Message("expanding from Vanilla save data");
-                CitizenUnit[] units = Singleton<CitizenManager>.instance.m_units.m_buffer;
-                Array.Clear(units, 0, units.Length);
+                // Detect if we're loading an expanded or original CitizenUnit array.
+                loadingExpanded = MetaData.LoadingExtended;
+
+                // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with.
+                if (!loadingExpanded)
+                {
+                    Logging.Message("expanding from Vanilla save data");
+                    Array.Clear(units.m_buffer, 0, units.m_buffer.Length);
+                }
+
+                // Apply SimulationStep transpiler.
+                Patcher.TranspileSimulationStep();
+            }
+            else
+            {
+                // Buffer wasn't extended.
+                Logging.Error("CitizenUnit buffer not extended");
             }
 
             Logging.Message("finished CitizenManager.Data.Deserialize Prefix");
