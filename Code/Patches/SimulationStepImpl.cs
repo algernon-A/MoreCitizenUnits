@@ -14,9 +14,7 @@ namespace MoreCitizenUnits
         /// Harmony transpiler to increase simulation CitizenUnit frame size to meet new limit.
         /// Finds ldc.i4 128 (which is unique in this method's game code to the CitizenUnit framing) and replaces the operand with our updated maximum.
         /// </summary>
-        /// <param name="original">Original method</param>
         /// <param name="instructions">Original ILCode</param>
-        /// <param name="generator">IL generator</param>
         /// <returns>Patched ILCode</returns>
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
