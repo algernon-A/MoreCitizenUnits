@@ -10,7 +10,7 @@ namespace MoreCitizenUnits
     public class MCUMod : IUserMod
     {
         public static string ModName => "More CitizenUnits";
-        public static string Version => "0.4";
+        public static string Version => "0.5";
 
         public string Name => ModName + " " + Version;
         public string Description => Translations.Translate("MCU_DESC");

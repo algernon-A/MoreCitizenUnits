@@ -1,4 +1,6 @@
-﻿- Add option to check for (and fix) invalid CitizenUnits on load
+﻿Version 0.5 -
+
+- Add option to check for (and fix) invalid CitizenUnits on load
 
 
 Version 0.4 -
