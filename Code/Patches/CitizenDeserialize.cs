@@ -18,6 +18,10 @@ namespace MoreCitizenUnits
         private const int ExtraUnitCount = OriginalUnitCount;
         internal const int NewUnitCount = ExtraUnitCount + OriginalUnitCount;
 
+
+        // Check for (and fix) invalid units on load.
+        internal static bool checkUnits = false;
+
         // Status flag - are we loading an expanded CitizenUnit array?
         private static bool loadingExpanded = false;
 
@@ -121,25 +125,50 @@ namespace MoreCitizenUnits
         [HarmonyPriority(Priority.First)]
         public static void Postfix()
         {
+            // Local references.
+            Array32<CitizenUnit> unitArray = Singleton<CitizenManager>.instance.m_units;
+            CitizenUnit[] unitBuffer = unitArray.m_buffer;
+
             Logging.Message("starting CitizenManager.Data.Deserialize Postfix");
 
-            // Only need to do this if converting from vanilla saved data.
-            if (!loadingExpanded)
+            // Fix invalid units, if setting is set.
+            if (checkUnits)
+            {
+                // Iterate through each unit in buffer.
+                for (uint i = 0; i < unitBuffer.Length; ++i)
+                {
+                    // Check for invalid units: ones flagged as 'Created', but with no building, vehicle, or citizen attached.
+                    if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) != CitizenUnit.Flags.None
+                        && unitArray.m_buffer[i].m_building == 0
+                        && unitArray.m_buffer[i].m_vehicle == 0
+                        && unitArray.m_buffer[i].m_citizen0 == 0
+                        && unitArray.m_buffer[i].m_citizen1 == 0
+                        && unitArray.m_buffer[i].m_citizen2 == 0
+                        && unitArray.m_buffer[i].m_citizen3 == 0
+                        && unitArray.m_buffer[i].m_citizen4 == 0)
+                    {
+                        Logging.Message("invalid unit ", i, " resetting");
+
+                        unitArray.m_buffer[i].m_flags = CitizenUnit.Flags.None;
+                        unitArray.m_buffer[i].m_nextUnit = 0;
+                    }
+                }
+            }
+
+            // Only need to do this if converting from vanilla saved data, or fixing invalid units.
+            if (!loadingExpanded || checkUnits)
             {
                 Logging.Message("resetting unused instances");
-
-                // Local reference.
-                Array32<CitizenUnit> unitArray = Singleton<CitizenManager>.instance.m_units;
 
                 // Clear unused elements array and list, and establish a debugging counter.
                 unitArray.ClearUnused();
                 uint freedUnits = 0;
 
                 // Iterate through each unit in buffer.
-                for (uint i = 0; i < unitArray.m_buffer.Length; ++i)
+                for (uint i = 0; i < unitBuffer.Length; ++i)
                 {
                     // Check if this unit is valid.
-                    if ((unitArray.m_buffer[i].m_flags & CitizenUnit.Flags.Created) == CitizenUnit.Flags.None)
+                    if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) == CitizenUnit.Flags.None)
                     {
                         // Invalid unit - properly release it to ensure m_units array's internals are correctly set.
                         unitArray.ReleaseItem(i);

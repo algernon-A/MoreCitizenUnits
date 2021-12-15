@@ -1,4 +1,7 @@
-﻿Version 0.4 -
+﻿- Add option to check for (and fix) invalid CitizenUnits on load
+
+
+Version 0.4 -
 
 - Confirm successful array resizing before transpiling CitizenManager.SimulationStepImpl
 

@@ -38,5 +38,15 @@ namespace MoreCitizenUnits
                 Patcher.UnpatchAll();
             }
         }
+
+
+        /// <summary>
+        /// Called by the game when the mod options panel is setup.
+        /// </summary>
+        public void OnSettingsUI(UIHelperBase helper)
+        {
+            // Setup options panel reference.
+            helper.AddCheckbox(Translations.Translate("MCU_FIX"), CitizenDeserialze.checkUnits, (isChecked) => CitizenDeserialze.checkUnits = isChecked);
+        }
     }
 }
