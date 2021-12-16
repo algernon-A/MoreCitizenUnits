@@ -1,4 +1,5 @@
 ﻿using ICities;
+using ColossalFramework.UI;
 using CitiesHarmony.API;
 
 
@@ -48,6 +49,12 @@ namespace MoreCitizenUnits
         /// </summary>
         public void OnSettingsUI(UIHelperBase helper)
         {
+            // Language options.
+            UIHelperBase languageGroup = helper.AddGroup(Translations.Translate("TRN_CHOICE"));
+            UIDropDown languageDropDown = (UIDropDown)languageGroup.AddDropdown(Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index, (value) => { Translations.Index = value; ModSettings.Save(); });
+            languageDropDown.autoSize = false;
+            languageDropDown.width = 270f;
+
             // Setup options panel reference.
             helper.AddCheckbox(Translations.Translate("MCU_FIX"), CitizenDeserialze.checkUnits, (isChecked) => { CitizenDeserialze.checkUnits = isChecked; ModSettings.Save(); });
         }
