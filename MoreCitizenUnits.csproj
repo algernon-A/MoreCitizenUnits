@@ -66,6 +66,7 @@
     <Compile Include="Code\Patches\Patcher.cs" />
     <Compile Include="Code\Patches\SimulationStepImpl.cs" />
     <Compile Include="Code\MetaData.cs" />
+    <Compile Include="Code\Settings\ModSettings.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
     <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
     <Compile Include="Code\Utils\Logging.cs" />

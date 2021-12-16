@@ -24,6 +24,9 @@ namespace MoreCitizenUnits
             // Apply Harmony patches via Cities Harmony.
             // Called here instead of OnCreated to allow the auto-downloader to do its work prior to launch.
             HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
+
+            // Load the settings file.
+            ModSettings.Load();
         }
 
 
@@ -46,7 +49,7 @@ namespace MoreCitizenUnits
         public void OnSettingsUI(UIHelperBase helper)
         {
             // Setup options panel reference.
-            helper.AddCheckbox(Translations.Translate("MCU_FIX"), CitizenDeserialze.checkUnits, (isChecked) => CitizenDeserialze.checkUnits = isChecked);
+            helper.AddCheckbox(Translations.Translate("MCU_FIX"), CitizenDeserialze.checkUnits, (isChecked) => { CitizenDeserialze.checkUnits = isChecked; ModSettings.Save(); });
         }
     }
 }
