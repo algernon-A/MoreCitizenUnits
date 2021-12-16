@@ -4,5 +4,7 @@
 		<Translation ID="MCU_NAM" String="More CitizenUnits" />
 		<Translation ID="MCU_DESC" String="Increases the number of CitizenUnits (NOT citizens!) supported by the game." />"
 		<Translation ID="MCU_FIX" String="Detect and fix invalid CitizenUnits on load" />
+		<Translation ID="TRN_CHOICE" String="Set language" />
+		<Translation ID="TRN_SYS" String="Use game language" />
 	</Translations>
 </Language>

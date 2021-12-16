@@ -4,5 +4,7 @@
 		<Translation ID="MCU_NAM" String="More CitizenUnits"/>
 		<Translation ID="MCU_DESC" String="ゲームでサポートされている、CitizenUnits(Citizensで無く) の数を増やします"/>"
 		<Translation ID="MCU_FIX" String="ロード時に無効なCitizenUnitsの検出して修正"/>
+		<Translation ID="TRN_CHOICE" String="言語設定"/>
+		<Translation ID="TRN_SYS" String="ゲームの言語を使用"/>
 	</Translations>
 </Language>

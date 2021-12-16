@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Language UniqueName="zh" ReadableName="简体中文">
-  <Translations>
-    <Translation ID="MCU_NAM" String="More CitizenUnits" />
-    <Translation ID="MCU_DESC" String="增加游戏支持的公民单位(不是公民!)" />
-  </Translations>
+	<Translations>
+		<Translation ID="MCU_NAM" String="More CitizenUnits" />
+		<Translation ID="MCU_DESC" String="增加游戏支持的公民单位(不是公民!)" />
+		<Translation ID="TRN_CHOICE" String="语言设定" />
+		<Translation ID="TRN_SYS" String="使用游戏默认语言" />
+	</Translations>
 </Language>
