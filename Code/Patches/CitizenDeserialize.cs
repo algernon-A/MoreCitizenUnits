@@ -152,7 +152,7 @@ namespace MoreCitizenUnits
                         && unitArray.m_buffer[i].m_citizen3 == 0
                         && unitArray.m_buffer[i].m_citizen4 == 0)
                     {
-                        if (!loadingExpanded)
+                        if (loadingExpanded)
                         {
                             // Don't bother logging on initial expansion.
                             Logging.Message("resetting invalid unit ", i);
