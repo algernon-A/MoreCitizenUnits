@@ -20,7 +20,7 @@ namespace MoreCitizenUnits
 
 
         // Check for (and fix) invalid units on load.
-        internal static bool checkUnits = false;
+        internal static bool checkUnits = true;
 
         // Status flag - are we loading an expanded CitizenUnit array?
         private static bool loadingExpanded = false;
