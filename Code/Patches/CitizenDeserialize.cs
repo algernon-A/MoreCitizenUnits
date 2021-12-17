@@ -134,6 +134,8 @@ namespace MoreCitizenUnits
             // Fix invalid units, if setting is set.
             if (checkUnits)
             {
+                Logging.Message("checking units");
+
                 // Iterate through each unit in buffer.
                 for (uint i = 0; i < unitBuffer.Length; ++i)
                 {
