@@ -1,6 +1,6 @@
 ﻿Version 0.5 -
 
-- Add option to check for (and fix) invalid CitizenUnits on load
+- Automatically validate units when expanding from default array, and add option to check for (and fix) invalid CitizenUnits on load
 
 
 Version 0.4 -
