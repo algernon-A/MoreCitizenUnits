@@ -20,7 +20,7 @@ namespace MoreCitizenUnits
 
 
         // Check for (and fix) invalid units on load.
-        internal static bool checkUnits = false;
+        internal static bool checkUnits = true;
 
         // Status flag - are we loading an expanded CitizenUnit array?
         private static bool loadingExpanded = false;
@@ -131,10 +131,13 @@ namespace MoreCitizenUnits
 
             Logging.Message("starting CitizenManager.Data.Deserialize Postfix");
 
-            // Fix invalid units, if setting is set.
-            if (checkUnits)
+
+            // Only need to do this if converting from vanilla saved data, or fixing invalid units.
+            if (!loadingExpanded || checkUnits)
             {
+                // First, check for and fix invalid units.
                 Logging.Message("checking units");
+                int invalidUnits = 0;
 
                 // Iterate through each unit in buffer.
                 for (uint i = 0; i < unitBuffer.Length; ++i)
@@ -149,20 +152,25 @@ namespace MoreCitizenUnits
                         && unitArray.m_buffer[i].m_citizen3 == 0
                         && unitArray.m_buffer[i].m_citizen4 == 0)
                     {
-                        Logging.Message("invalid unit ", i, " resetting");
+                        if (loadingExpanded)
+                        {
+                            // Don't bother logging on initial expansion.
+                            Logging.Message("resetting invalid unit ", i);
+                        }
 
+                        // Increment invalid unit counter.
+                        ++invalidUnits;
+
+                        // Reset unit.
                         unitArray.m_buffer[i].m_flags = CitizenUnit.Flags.None;
                         unitArray.m_buffer[i].m_nextUnit = 0;
                     }
                 }
-            }
 
-            // Only need to do this if converting from vanilla saved data, or fixing invalid units.
-            if (!loadingExpanded || checkUnits)
-            {
-                Logging.Message("resetting unused instances");
+                Logging.Message(invalidUnits, " invalid units cleared");
 
                 // Clear unused elements array and list, and establish a debugging counter.
+                Logging.Message("resetting unused instances");
                 unitArray.ClearUnused();
                 uint freedUnits = 0;
 
