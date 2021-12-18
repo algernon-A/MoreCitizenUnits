@@ -3,6 +3,7 @@
 	<Translations>
 		<Translation ID="MCU_NAM" String="More CitizenUnits" />
 		<Translation ID="MCU_DESC" String="增加游戏支持的公民单位(不是公民!)" />
+		<Translation ID="MCU_FIX" String="载入的时候检测并修复无效的公民单位" />
 		<Translation ID="TRN_CHOICE" String="语言设定" />
 		<Translation ID="TRN_SYS" String="使用游戏默认语言" />
 	</Translations>
