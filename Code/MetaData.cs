@@ -24,7 +24,7 @@ namespace MoreCitizenUnits
                     // Got it - see if it contains our key.
                     if (metaDataDict.TryGetValue(MetadataKey, out bool isOverridden))
                     {
-                        // Key found; if it's set to true, then this save has been serialized with MoreCitizenUnits; s.
+                        // Key found; if it's set to true, then this save has been serialized with More CitizenUnits.
                         if (isOverridden)
                         {
                             Logging.Message("deserializing using x2 unit count");

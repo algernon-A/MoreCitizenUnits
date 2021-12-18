@@ -147,7 +147,7 @@ namespace MoreCitizenUnits
                 // Get next instruction and add it to output.
                 instruction = instructionsEnumerator.Current;
 
-                // Is this ldc.i4 524288 (CitizenManger.ReleaseUnits)?
+                // Is this ldc.i4 524288?
                 if (instruction.opcode == OpCodes.Ldc_I4 && instruction.operand is int thisInt && thisInt == 524288)
                 {
                     // Yes - change operand to our new unit count max.

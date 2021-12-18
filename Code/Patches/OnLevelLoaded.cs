@@ -30,7 +30,7 @@ namespace MoreCitizenUnits
             }
             else
             {
-                // Buffer sizenot changed - log error and undo Harmony patches.
+                // Buffer size not changed - log error and undo Harmony patches.
                 Logging.Error("CitizenUnit array size not increased; aborting operation and reverting Harmony patches");
                 Patcher.UnpatchAll();
             }
