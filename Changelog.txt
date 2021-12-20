@@ -1,4 +1,9 @@
-﻿Version 0.5 -
+﻿Version 0.6 -
+
+Refactor expansion allocation and unit checking code.
+
+
+Version 0.5 -
 
 - Automatically validate units when expanding from default array, and add option to check for (and fix) invalid CitizenUnits on load
 

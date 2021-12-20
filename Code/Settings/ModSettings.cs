@@ -25,8 +25,8 @@ namespace MoreCitizenUnits
         }
 
 
-        [XmlElement("FixUnits")]
-        public bool XMLFixUnits { get => CitizenDeserialze.checkUnits; set => CitizenDeserialze.checkUnits = value; }
+        [XmlElement("CheckUnits")]
+        public bool XMLCheckUnits { get => CitizenDeserialze.checkUnits; set => CitizenDeserialze.checkUnits = value; }
 
 
         /// <summary>
