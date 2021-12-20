@@ -20,7 +20,7 @@ namespace MoreCitizenUnits
 
 
         // Check for (and fix) invalid units on load.
-        internal static bool checkUnits = true;
+        internal static bool checkUnits = false;
 
         // Status flag - are we loading an expanded CitizenUnit array?
         private static bool loadingExpanded = false;
@@ -129,66 +129,84 @@ namespace MoreCitizenUnits
             Array32<CitizenUnit> unitArray = Singleton<CitizenManager>.instance.m_units;
             CitizenUnit[] unitBuffer = unitArray.m_buffer;
 
-            Logging.Message("starting CitizenManager.Data.Deserialize Postfix");
+            Logging.Message("starting CitizenManager.Data.Deserialize Postfix with unitBuffer size ", unitBuffer.Length);
 
-
-            // Only need to do this if converting from vanilla saved data, or fixing invalid units.
-            if (!loadingExpanded || checkUnits)
+            // If expanding from vanilla saved data, ensure all new units are properly cleared.
+            if (!loadingExpanded)
             {
-                // First, check for and fix invalid units.
+                // Iterate through each unit in buffer.
+                for (uint i = OriginalUnitCount; i < unitBuffer.Length; ++i)
+                {
+                    // Reset all values.
+                    unitBuffer[i].m_flags = CitizenUnit.Flags.None;
+                    unitBuffer[i].m_building = 0;
+                    unitBuffer[i].m_vehicle = 0;
+                    unitBuffer[i].m_citizen0 = 0;
+                    unitBuffer[i].m_citizen1 = 0;
+                    unitBuffer[i].m_citizen2 = 0;
+                    unitBuffer[i].m_citizen3 = 0;
+                    unitBuffer[i].m_citizen4 = 0;
+                    unitBuffer[i].m_nextUnit = 0;
+
+                    // Ensure new item is added to empty items via ReleaseItem.
+                    unitArray.ReleaseItem(i);
+                }
+            }
+
+            // Check for and fix invalid units, if set.
+            if (checkUnits)
+            {
                 Logging.Message("checking units");
-                int invalidUnits = 0;
+
+                // List of invalid units.
+                List<uint> invalidUnits = new List<uint>();
+
+                // Hashset of m_nextUnit references.
+                HashSet<uint> nextUnits = new HashSet<uint>();
 
                 // Iterate through each unit in buffer.
                 for (uint i = 0; i < unitBuffer.Length; ++i)
                 {
                     // Check for invalid units: ones flagged as 'Created', but with no building, vehicle, or citizen attached.
+                    uint nextUnit = unitBuffer[i].m_nextUnit;
                     if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) != CitizenUnit.Flags.None
-                        && unitArray.m_buffer[i].m_building == 0
-                        && unitArray.m_buffer[i].m_vehicle == 0
-                        && unitArray.m_buffer[i].m_citizen0 == 0
-                        && unitArray.m_buffer[i].m_citizen1 == 0
-                        && unitArray.m_buffer[i].m_citizen2 == 0
-                        && unitArray.m_buffer[i].m_citizen3 == 0
-                        && unitArray.m_buffer[i].m_citizen4 == 0)
+                        && unitBuffer[i].m_building == 0
+                        && unitBuffer[i].m_vehicle == 0
+                        && unitBuffer[i].m_citizen0 == 0
+                        && unitBuffer[i].m_citizen1 == 0
+                        && unitBuffer[i].m_citizen2 == 0
+                        && unitBuffer[i].m_citizen3 == 0
+                        && unitBuffer[i].m_citizen4 == 0
+                        && nextUnit == 0)
                     {
-                        if (loadingExpanded)
-                        {
-                            // Don't bother logging on initial expansion.
-                            Logging.Message("resetting invalid unit ", i);
-                        }
+                        Logging.Message("found empty unit ", i, " with invalid flags ", unitBuffer[i].m_flags);
+                        invalidUnits.Add(i);
+                    }
 
-                        // Increment invalid unit counter.
-                        ++invalidUnits;
-
-                        // Reset unit.
-                        unitArray.m_buffer[i].m_flags = CitizenUnit.Flags.None;
-                        unitArray.m_buffer[i].m_nextUnit = 0;
+                    // Check for nextUnit reference and add to list of references, if it isn't already there.
+                    if (nextUnit != 0 && !nextUnits.Contains(nextUnit))
+                    {
+                        nextUnits.Add(nextUnit);
                     }
                 }
+                Logging.Message(invalidUnits.Count, " invalid units detected");
 
-                Logging.Message(invalidUnits, " invalid units cleared");
-
-                // Clear unused elements array and list, and establish a debugging counter.
-                Logging.Message("resetting unused instances");
-                unitArray.ClearUnused();
-                uint freedUnits = 0;
-
-                // Iterate through each unit in buffer.
-                for (uint i = 0; i < unitBuffer.Length; ++i)
+                // Now, iterate through list of invalid units and clear all those without a m_nextUnit reference pointing TO them.
+                uint clearedCount = 0;
+                foreach (uint invalidUnit in invalidUnits)
                 {
-                    // Check if this unit is valid.
-                    if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) == CitizenUnit.Flags.None)
+                    if (nextUnits.Contains(invalidUnit))
                     {
-                        // Invalid unit - properly release it to ensure m_units array's internals are correctly set.
-                        unitArray.ReleaseItem(i);
-
-                        // Increment debugging message counter.
-                        ++freedUnits;
+                        Logging.Message("leaving invalid unit ", invalidUnit, " referred to by m_nextUnit");
+                    }
+                    else
+                    {
+                        unitBuffer[invalidUnit].m_flags = CitizenUnit.Flags.None;
+                        ++clearedCount;
                     }
                 }
 
-                Logging.Message("completed resetting unused instances; freed unit count was ", freedUnits);
+                Logging.Message("completed resetting ", clearedCount, " CitizenUnits with invalid flags");
             }
 
             Logging.Message("finished CitizenManager.Data.Deserialize Postfix");
