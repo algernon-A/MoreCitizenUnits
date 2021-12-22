@@ -1,6 +1,6 @@
 ﻿Version 0.6 -
 
-Refactor expansion allocation and unit checking code.
+- Refactor expansion allocation and unit checking code
 
 
 Version 0.5 -

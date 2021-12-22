@@ -162,7 +162,7 @@ namespace MoreCitizenUnits
                 List<uint> invalidUnits = new List<uint>();
 
                 // Hashset of m_nextUnit references.
-                HashSet<uint> nextUnits = new HashSet<uint>();
+                Dictionary<uint, uint> nextUnits = new Dictionary<uint, uint>();
 
                 // Iterate through each unit in buffer.
                 for (uint i = 0; i < unitBuffer.Length; ++i)
@@ -186,16 +186,22 @@ namespace MoreCitizenUnits
                             && unitBuffer[i].m_citizen2 == 0
                             && unitBuffer[i].m_citizen3 == 0
                             && unitBuffer[i].m_citizen4 == 0
-                            && nextUnit == 0)
+                            )
                         {
                             Logging.Message("found empty unit ", i, " with invalid flags ", unitBuffer[i].m_flags);
                             invalidUnits.Add(i);
                         }
-
-                        // Check for nextUnit reference and add to list of references, if it isn't already there.
-                        if (nextUnit != 0 && !nextUnits.Contains(nextUnit))
+                        else if (nextUnit != 0)
                         {
-                            nextUnits.Add(nextUnit);
+                            // Check for nextUnit reference and add to list of references, if it isn't already there.
+                            if (nextUnits.ContainsKey(nextUnit))
+                            {
+                                Logging.Error("duplicate m_nextUnit reference to unit ", nextUnit);
+                            }
+                            else
+                            {
+                                nextUnits.Add(nextUnit, i);
+                            }
                         }
                     }
                 }
@@ -205,7 +211,7 @@ namespace MoreCitizenUnits
                 uint clearedCount = 0;
                 foreach (uint invalidUnit in invalidUnits)
                 {
-                    if (nextUnits.Contains(invalidUnit))
+                    if (nextUnits.ContainsKey(invalidUnit))
                     {
                         Logging.Message("leaving invalid unit ", invalidUnit, " referred to by m_nextUnit");
                     }
