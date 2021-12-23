@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Collections.Generic;
 using HarmonyLib;
 using CitiesHarmony.API;
 
@@ -79,6 +80,47 @@ namespace MoreCitizenUnits
             MethodInfo patchMethod = typeof(SimulationStepImplPatch).GetMethod(nameof(SimulationStepImplPatch.Transpiler));
 
             harmonyInstance.Patch(targetMethod, transpiler: new HarmonyMethod(patchMethod));
+        }
+
+
+        /// <summary>
+        /// Lists all methods patched by Harmony.
+        /// </summary>
+        public static void ListMethods()
+        {
+            Harmony harmonyInstance = new Harmony(harmonyID);
+            Logging.Message("Listing patches");
+
+            // Get all patched methods via Harmony instance and iterate through.
+            IEnumerable<MethodBase> patchedMethods = harmonyInstance.GetPatchedMethods();
+            foreach (MethodBase patchedMethod in patchedMethods)
+            {
+                Logging.Message(patchedMethod.DeclaringType, ".", patchedMethod.Name);
+
+                // Get Harmony patch info for this method and log details.
+                Patches patches = Harmony.GetPatchInfo(patchedMethod);
+
+                foreach (string owner in patches.Owners)
+                {
+                    Logging.Message(owner);
+                }
+                foreach (var prefix in patches.Prefixes)
+                {
+                    Logging.Message("Prefix ", prefix.index, ": ", prefix.owner);
+                }
+                foreach (var postfix in patches.Prefixes)
+                {
+                    Logging.Message("Postfix ", postfix.index, ": ", postfix.owner);
+                }
+                foreach (var transpiler in patches.Prefixes)
+                {
+                    Logging.Message("Transpiler ", transpiler.index, ": ", transpiler.owner);
+                }
+                foreach (var finalizer in patches.Finalizers)
+                {
+                    Logging.Message("Transpiler ", finalizer.index, ": ", finalizer.owner);
+                }
+            }
         }
     }
 }

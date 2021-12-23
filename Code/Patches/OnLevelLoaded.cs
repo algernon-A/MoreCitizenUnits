@@ -36,6 +36,9 @@ namespace MoreCitizenUnits
                 // Buffer successfully enlarged - set simulation metatdata flag.
                 MetaData.SetMetaData();
                 Logging.KeyMessage("loading complete");
+
+                // List Harmony patches.
+                Patcher.ListMethods();
             }
             else
             {
