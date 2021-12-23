@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Code\Loading.cs" />
     <Compile Include="Code\Mod.cs" />
+    <Compile Include="Code\Patches\AfterDeserialize.cs" />
     <Compile Include="Code\Patches\CitizenDeserialize.cs" />
     <Compile Include="Code\Patches\GameLimitTranspiler.cs" />
     <Compile Include="Code\Patches\ModLimitTranspiler.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Utils\ModUtils.cs" />
+    <Compile Include="Code\Utils\UnitUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

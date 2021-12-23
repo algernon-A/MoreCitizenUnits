@@ -21,6 +21,15 @@ namespace MoreCitizenUnits
             int bufferSize = units.m_buffer.Length;
             Logging.Message("current CitizenUnit array size is ", bufferSize.ToString("N0"), " with m_size ", units.m_size.ToString("N0"));
 
+            // If we're doing a clean reset, do so.
+            if (ModSettings.nukeAll)
+            {
+                Singleton<SimulationManager>.instance.AddAction(() => UnitUtils.ResetUnits());
+
+                // Clear setting after use - supposed to be once-off.
+                ModSettings.nukeAll = false;
+            }
+
             // Check for successful implementation.
             if (bufferSize == CitizenDeserialze.NewUnitCount)
             {

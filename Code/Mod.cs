@@ -55,8 +55,9 @@ namespace MoreCitizenUnits
             languageDropDown.autoSize = false;
             languageDropDown.width = 270f;
 
-            // Setup options panel reference.
+            // Setup checkboxes.
             helper.AddCheckbox(Translations.Translate("MCU_FIX"), CitizenDeserialze.checkUnits, (isChecked) => { CitizenDeserialze.checkUnits = isChecked; ModSettings.Save(); });
+            helper.AddCheckbox(Translations.Translate("MCU_NUKE"), ModSettings.nukeAll, (isChecked) => { ModSettings.nukeAll = isChecked; });
         }
     }
 }

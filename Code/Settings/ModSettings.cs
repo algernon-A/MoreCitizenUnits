@@ -15,6 +15,11 @@ namespace MoreCitizenUnits
         [XmlIgnore]
         private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "MoreCitizenUnits.xml");
 
+        // Perform a full reset of the CitizenUnit array on load.
+        [XmlIgnore]
+        internal static bool nukeAll = false;
+
+
         // Language.
         [XmlElement("Language")]
         public string Language
@@ -27,6 +32,9 @@ namespace MoreCitizenUnits
 
         [XmlElement("CheckUnits")]
         public bool XMLCheckUnits { get => CitizenDeserialze.checkUnits; set => CitizenDeserialze.checkUnits = value; }
+
+        [XmlElement("ResetUnits")]
+        public bool XMLResetUnits { get => nukeAll; set => nukeAll = value; }
 
 
         /// <summary>
