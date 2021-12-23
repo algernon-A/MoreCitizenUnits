@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Text;
+using System.Reflection;
 using System.Collections.Generic;
 using HarmonyLib;
 using CitiesHarmony.API;
@@ -89,38 +90,60 @@ namespace MoreCitizenUnits
         public static void ListMethods()
         {
             Harmony harmonyInstance = new Harmony(harmonyID);
-            Logging.Message("Listing patches");
+            StringBuilder logMessage = new StringBuilder("Listing patches");
 
             // Get all patched methods via Harmony instance and iterate through.
             IEnumerable<MethodBase> patchedMethods = harmonyInstance.GetPatchedMethods();
             foreach (MethodBase patchedMethod in patchedMethods)
             {
-                Logging.Message(patchedMethod.DeclaringType, ".", patchedMethod.Name);
+                // Add the method info as header.
+                logMessage.Append(patchedMethod.DeclaringType);
+                logMessage.Append(".");
+                logMessage.AppendLine(patchedMethod.Name);
 
                 // Get Harmony patch info for this method and log details.
                 Patches patches = Harmony.GetPatchInfo(patchedMethod);
 
+                // Print out patch owners.
                 foreach (string owner in patches.Owners)
                 {
-                    Logging.Message(owner);
+                    logMessage.Append("    ");
+                    logMessage.AppendLine(owner);
                 }
+
+                // Print out patch indexes and types.
                 foreach (var prefix in patches.Prefixes)
                 {
-                    Logging.Message("Prefix ", prefix.index, ": ", prefix.owner);
+                    logMessage.Append("        Prefix ");
+                    logMessage.Append(prefix.index);
+                    logMessage.Append(": ");
+                    logMessage.AppendLine(prefix.owner);
                 }
                 foreach (var postfix in patches.Prefixes)
                 {
-                    Logging.Message("Postfix ", postfix.index, ": ", postfix.owner);
+                    logMessage.Append("        Prefix ");
+                    logMessage.Append(postfix.index);
+                    logMessage.Append(": ");
+                    logMessage.AppendLine(postfix.owner);
                 }
                 foreach (var transpiler in patches.Prefixes)
                 {
-                    Logging.Message("Transpiler ", transpiler.index, ": ", transpiler.owner);
+                    logMessage.Append("        Transpiler ");
+                    logMessage.Append(transpiler.index);
+                    logMessage.Append(": ");
+                    logMessage.AppendLine(transpiler.owner);
                 }
                 foreach (var finalizer in patches.Finalizers)
                 {
-                    Logging.Message("Transpiler ", finalizer.index, ": ", finalizer.owner);
+                    logMessage.Append("        Finalizer ");
+                    logMessage.Append(finalizer.index);
+                    logMessage.Append(": ");
+                    logMessage.AppendLine(finalizer.owner);
                 }
             }
+
+            // Write message to log.
+            Logging.Message(logMessage);
         }
     }
 }
