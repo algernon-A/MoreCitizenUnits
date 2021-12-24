@@ -46,6 +46,9 @@ namespace MoreCitizenUnits
                 Logging.Error("CitizenUnit array size not increased; aborting operation and reverting Harmony patches");
                 Patcher.UnpatchAll();
             }
+
+            // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
+            OptionsPanelManager.OptionsEventHook();
         }
     }
 }

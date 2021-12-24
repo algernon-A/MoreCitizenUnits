@@ -68,10 +68,13 @@
     <Compile Include="Code\Patches\SimulationStepImpl.cs" />
     <Compile Include="Code\MetaData.cs" />
     <Compile Include="Code\Settings\ModSettings.cs" />
+    <Compile Include="Code\Settings\OptionsPanel.cs" />
+    <Compile Include="Code\Settings\OptionsPanelManager.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
     <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Utils\ModUtils.cs" />
+    <Compile Include="Code\Utils\UIControls.cs" />
     <Compile Include="Code\Utils\UnitUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

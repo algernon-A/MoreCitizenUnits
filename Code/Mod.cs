@@ -28,6 +28,19 @@ namespace MoreCitizenUnits
 
             // Load the settings file.
             ModSettings.Load();
+
+            // Add the options panel event handler for the start screen (to enable/disable options panel based on visibility).
+            // First, check to see if UIView is ready.
+            if (UIView.GetAView() != null)
+            {
+                // It's ready - attach the hook now.
+                OptionsPanelManager.OptionsEventHook();
+            }
+            else
+            {
+                // Otherwise, queue the hook for when the intro's finished loading.
+                LoadingManager.instance.m_introLoaded += OptionsPanelManager.OptionsEventHook;
+            }
         }
 
 
@@ -49,15 +62,8 @@ namespace MoreCitizenUnits
         /// </summary>
         public void OnSettingsUI(UIHelperBase helper)
         {
-            // Language options.
-            UIHelperBase languageGroup = helper.AddGroup(Translations.Translate("TRN_CHOICE"));
-            UIDropDown languageDropDown = (UIDropDown)languageGroup.AddDropdown(Translations.Translate("TRN_CHOICE"), Translations.LanguageList, Translations.Index, (value) => { Translations.Index = value; ModSettings.Save(); });
-            languageDropDown.autoSize = false;
-            languageDropDown.width = 270f;
-
-            // Setup checkboxes.
-            helper.AddCheckbox(Translations.Translate("MCU_FIX"), CitizenDeserialze.checkUnits, (isChecked) => { CitizenDeserialze.checkUnits = isChecked; ModSettings.Save(); });
-            helper.AddCheckbox(Translations.Translate("MCU_NUKE"), ModSettings.nukeAll, (isChecked) => { ModSettings.nukeAll = isChecked; });
+            // Create options panel.
+            OptionsPanelManager.Setup(helper);
         }
     }
 }
