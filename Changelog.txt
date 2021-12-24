@@ -1,4 +1,11 @@
-﻿Version 0.6 -
+﻿Version 0.7 -
+
+- Add option to rebuild CitizenUnit array from scratch
+- Enhance unit checking code
+- Log overlapping Harmony patches
+
+
+Version 0.6 -
 
 - Refactor expansion allocation and unit checking code
 
