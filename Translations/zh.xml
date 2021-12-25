@@ -4,6 +4,12 @@
 		<Translation ID="MCU_NAM" String="More CitizenUnits" />
 		<Translation ID="MCU_DESC" String="增加游戏支持的公民单位(不是公民!)" />
 		<Translation ID="MCU_FIX" String="载入的时候检测并修复无效的公民单位" />
+		<Translation ID="MCU_CLEAN" String="当CitizenUnit数组损坏时尝试恢复" />
+		<Translation ID="MCU_NUKE" String="在下次加载时重置整个CitizenUnit数组" />
+		<Translation ID="MCU_NUKE_TXT1" String="选中该选项将在下次加载城市的整个CitizenUnit数组时从头开始重建。这将重置所有车辆和建筑能力到它们当前的计算值(包括 Ploppable RICO Revisited和Realistic Population的影响)，并分配您现有的人口到最好的固定值。" />
+		<Translation ID="MCU_NUKE_TXT2" String="这个选项可能会导致城市人口暂时下降，但将确保任何数据损坏是可修复的。" />
+		<Translation ID="MCU_NUKE_TXT3" String="如果遇到可能表明CitizenUnit数组已损坏的错误，比如在CitizenUnit限制尚未达到时，建筑的人口为0/0，或者建筑的人口似乎毫无理由地波动，请尝试此方法。" />
+		<Translation ID="MCU_NUKE_TXT4" String="此选项将自动禁用，一旦使用，正常后续不应该被使用。" />
 		<Translation ID="TRN_CHOICE" String="语言设定" />
 		<Translation ID="TRN_SYS" String="使用游戏默认语言" />
 	</Translations>
