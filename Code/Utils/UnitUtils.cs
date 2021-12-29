@@ -259,6 +259,9 @@ namespace MoreCitizenUnits
 			}
 
 			Logging.Message("released ", releasedCount, " unassigned citizens; current residential population is ", population);
+
+			// Try to clean up citizens.
+			CitizenUtils.ResetCitizens();
 		}
 
 
