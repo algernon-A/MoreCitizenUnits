@@ -1,6 +1,7 @@
 ﻿Version 0.8 -
 
 - Also rebuild Citizen array from scratch when rebuilding CitizenUnit array
+- Fix rebuilding option reset after sucessful rebuild not saving to file
 
 
 Version 0.7 -

@@ -28,6 +28,7 @@ namespace MoreCitizenUnits
 
                 // Clear setting after use - supposed to be once-off.
                 ModSettings.nukeAll = false;
+                ModSettings.Save();
             }
 
             // Check for successful implementation.
