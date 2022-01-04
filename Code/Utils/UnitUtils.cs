@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ColossalFramework;
 using ColossalFramework.Math;
 
@@ -135,98 +134,8 @@ namespace MoreCitizenUnits
 				}
 			}
 
-			// Finally, clear up any unused citizen references contained in units.
-			// Start by building up hashlists of currently active citizens.
-			HashSet<uint> referencedCitizens = new HashSet<uint>();
-			uint activeCitizens = 0;
-			for (uint i = 0; i < bufferLength; ++i)
-			{
-				// Local referencess.
-				CitizenUnit oldUnit = oldUnitBuffer[i];
-
-				// Skip non-created units.
-				if ((oldUnit.m_flags & CitizenUnit.Flags.Created) == CitizenUnit.Flags.None)
-                {
-					continue;
-                }
-
-				if (oldUnit.m_citizen0 != 0)
-				{
-					if (referencedCitizens.Add(oldUnit.m_citizen0))
-					{
-						++activeCitizens;
-					}
-				}
-				if (oldUnit.m_citizen1 != 0)
-				{
-					if (referencedCitizens.Add(oldUnit.m_citizen1))
-					{
-						++activeCitizens;
-					}
-				}
-				if (oldUnit.m_citizen2 != 0)
-				{
-					if (referencedCitizens.Add(oldUnit.m_citizen2))
-					{
-						++activeCitizens;
-					}
-				}
-				if (oldUnit.m_citizen3 != 0)
-				{
-					if (referencedCitizens.Add(oldUnit.m_citizen3))
-					{
-						++activeCitizens;
-					}
-				}
-				if (oldUnit.m_citizen4 != 0)
-				{
-					if (referencedCitizens.Add(oldUnit.m_citizen4))
-					{
-						++activeCitizens;
-					}
-				}
-			}
-			Logging.Message(activeCitizens, " active citizens");
-
-				// At this stage all sucessfully reassigned units have been cleared, so anything left is invalid.
-				Logging.Message("releasing unassigned citizens");
-			int releasedCount = 0;
-			for (uint i = 0; i < bufferLength; ++i)
-			{
-				// Local referencess.
-				CitizenUnit oldUnit = oldUnitBuffer[i];
-
-				if (oldUnit.m_citizen0 != 0 && !referencedCitizens.Contains(oldUnit.m_citizen0))
-				{
-					citizenManager.ReleaseCitizen(oldUnit.m_citizen0);
-					Logging.Message("releasing citizen ", oldUnit.m_citizen0, " from old unit ", i);
-					++releasedCount;
-				}
-				if (oldUnit.m_citizen1 != 0 && !referencedCitizens.Contains(oldUnit.m_citizen1))
-				{
-					citizenManager.ReleaseCitizen(oldUnit.m_citizen1);
-					Logging.Message("releasing citizen ", oldUnit.m_citizen1, " from old unit ", i);
-					++releasedCount;
-				}
-				if (oldUnit.m_citizen2 != 0 && !referencedCitizens.Contains(oldUnit.m_citizen2))
-				{
-					citizenManager.ReleaseCitizen(oldUnit.m_citizen2);
-					Logging.Message("releasing citizen ", oldUnit.m_citizen2, " from old unit ", i);
-					++releasedCount;
-				}
-				if (oldUnit.m_citizen3 != 0 && !referencedCitizens.Contains(oldUnit.m_citizen3))
-				{
-					citizenManager.ReleaseCitizen(oldUnit.m_citizen3);
-					Logging.Message("releasing citizen ", oldUnit.m_citizen3, " from old unit ", i);
-					++releasedCount;
-				}
-				if (oldUnit.m_citizen4 != 0 && !referencedCitizens.Contains(oldUnit.m_citizen4))
-				{
-					citizenManager.ReleaseCitizen(oldUnit.m_citizen4);
-					Logging.Message("releasing citizen ", oldUnit.m_citizen4, " from old unit ", i);
-					++releasedCount;
-				}
-			}
+			// Reset citizen array too.
+			CitizenUtils.ResetCitizens();
 
 			// Calculate new residential population.
 			uint population = 0;
@@ -257,11 +166,7 @@ namespace MoreCitizenUnits
 					}
 				}
 			}
-
-			Logging.Message("released ", releasedCount, " unassigned citizens; current residential population is ", population);
-
-			// Try to clean up citizens.
-			CitizenUtils.CheckCitizens();
+			Logging.Message("current residential population is ", population);
 		}
 
 
@@ -742,7 +647,7 @@ namespace MoreCitizenUnits
 			{
 				return;
 			}
-			uint firstUnit = 0u;
+			uint firstUnit;
 			if (citizenManager.CreateUnits(out firstUnit, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, homeCount, workCount, visitCount, 0, studentCount))
 			{
 				if (previousCitizenUnit != 0)

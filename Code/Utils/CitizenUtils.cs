@@ -53,9 +53,9 @@ namespace MoreCitizenUnits
 			}
 
 			// Reset array.
-			uint bufferLength = (uint)originalCitizens.m_buffer.Length;
+			int bufferLength = originalCitizens.m_buffer.Length;
 			Logging.Message("creating new Citizen array with length ", bufferLength);
-			citizenManager.m_citizens = new Array32<Citizen>(bufferLength);
+			citizenManager.m_citizens = new Array32<Citizen>((uint)bufferLength);
 			Logging.Message("finished creating array");
 
 			// Array buffer references.
@@ -67,15 +67,20 @@ namespace MoreCitizenUnits
 			// Initialize allocated citizens hashset.
 			allocatedCitizens = new HashSet<uint>();
 
-			// Allocate *all* citizens in new array.
+			// Allocate *all* citizens in new array; we'll release unused ones later.
+			// Need to do it this way as we need to retain original Citizen IDs, and there's no mechanism to force a specific ID.
 			bool allocating;
+			int allocated = 0;
 			do
 			{
 				allocating = citizenManager.m_citizens.CreateItem(out uint itemID);
-			} while (!allocating);
+				++allocated;
+			} while (allocating);
+
+			Logging.Message("initally allocated ", allocated, " citizens");
 
 			// Iterate through each CitizenUnit and copy each citizen referred to.
-			for (uint i = 0; i < citizenUnitBuffer.Length; ++i)
+			for (uint i = 1; i < citizenUnitBuffer.Length; ++i)
             {
 				CitizenUnit thisUnit = citizenUnitBuffer[i];
 
@@ -102,7 +107,7 @@ namespace MoreCitizenUnits
 			}
 
 			// Iterate through each Citizen Instance and copy each citizen referred to.
-			for (uint i = 0; i < citizenInstanceBuffer.Length; ++i)
+			for (uint i = 1; i < citizenInstanceBuffer.Length; ++i)
 			{
 				if (citizenInstanceBuffer[i].m_flags != CitizenInstance.Flags.None)
                 {
@@ -113,11 +118,18 @@ namespace MoreCitizenUnits
 			Logging.Message("copied ", allocatedCitizens.Count, " citizens");
 
 			// Now, step through the array and release all citizens NOT included in our allocated array.
-			for (uint i = 0; i < bufferLength; ++i)
+			for (uint i = 1; i < bufferLength; ++i)
             {
 				if (!allocatedCitizens.Contains(i))
                 {
-					citizenManager.m_citizens.ReleaseItem(i);
+					try
+					{
+						citizenManager.m_citizens.ReleaseItem(i);
+					}
+					catch
+                    {
+						Logging.Error("exception releasing citizen ", i);
+                    }
                 }
             }
 		}
@@ -146,7 +158,7 @@ namespace MoreCitizenUnits
 			}
 
 			// If this citizen hasn't already been copied, it's a valid target; copy it over.
-			if (!allocatedCitizens.Add(citizenID))
+			if (allocatedCitizens.Add(citizenID))
 			{
 				newBuffer[citizenID] = oldBuffer[citizenID];
 			}

@@ -1,4 +1,7 @@
-﻿Version 0.7 -
+﻿- Also rebuild Citizen array from scratch when rebuilding CitizenUnit array
+
+
+Version 0.7 -
 
 - Add option to rebuild CitizenUnit array from scratch
 - Enhance unit checking code
