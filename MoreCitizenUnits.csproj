@@ -72,6 +72,7 @@
     <Compile Include="Code\Settings\OptionsPanelManager.cs" />
     <Compile Include="Code\TranslationFramework\TranslationFramework.cs" />
     <Compile Include="Code\TranslationFramework\TranslationXML.cs" />
+    <Compile Include="Code\Utils\CitizenUtils.cs" />
     <Compile Include="Code\Utils\Logging.cs" />
     <Compile Include="Code\Utils\ModUtils.cs" />
     <Compile Include="Code\Utils\UIControls.cs" />
