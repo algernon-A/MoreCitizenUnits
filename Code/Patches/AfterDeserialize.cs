@@ -51,7 +51,7 @@ namespace MoreCitizenUnits.Code.Patches
 
                             // Flags aren't empty - check for invalid units: ones flagged as 'Created', but with no building, vehicle, or citizen attached.
                             uint nextUnit = unitBuffer[i].m_nextUnit;
-                            if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) != CitizenUnit.Flags.None
+                            if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) == CitizenUnit.Flags.None
                                 && unitBuffer[i].m_building == 0
                                 && unitBuffer[i].m_vehicle == 0
                                 && unitBuffer[i].m_citizen0 == 0
