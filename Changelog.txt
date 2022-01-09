@@ -1,4 +1,5 @@
-﻿
+﻿Version 0.9 -
+
 - Convert translation framework to CSV (for CrowdIn)
 - Fix invalid CitizenUnit check identifying false positives with certain flag combinations
 
