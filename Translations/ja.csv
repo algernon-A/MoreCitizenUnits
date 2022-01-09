@@ -1,0 +1,13 @@
+CODE,ja
+NAME,日本語
+MCU_NAM,More CitizenUnits
+MCU_DESC,ゲームでサポートされている、CitizenUnits(Citizensで無く) の数を増やします
+MCU_FIX,ロード時に無効なCitizenUnitsの検出して修正
+MCU_CLEAN,CitizenUnitの配列破損から復旧
+MCU_NUKE,次回ロード時に、CitizenUnitの配列全体をリセット
+MCU_NUKE_TXT1,このオプションを選択すると、次回ロード時に都市のCitizenUnitの配列情報を全て初期化します。 初期化後に、全ての車両と建物のCitizenUnitの割当が、 現在の計算値で再設定します。 (Ploppable RICO Revisitedや、Realistic PopulationなどのMOD経由の変更も含む) そして、現在の計算値でCitizenUnitを、可能な限り再び割り当てます。
+MCU_NUKE_TXT2,このオプションは、都市の人口が一時的に減少するかもしれませんが、データ破損を確実に修正することが可能です。
+MCU_NUKE_TXT3,CitizenUnitが上限に近い状況でも、配列破損を疑うエラーが発生した場合も試してみてください。 例えば、労働者の雇用が過小・雇用されない、同じ建物でも世帯数が違う・居住しないなどがあります。
+MCU_NUKE_TXT4,このオプションは、基本的に複数回使用する必要はありません。 一度使用すると自動的に選択が解除されます。
+TRN_CHOICE,言語設定
+TRN_SYS,ゲームの言語を使用

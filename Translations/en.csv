@@ -1,0 +1,13 @@
+CODE,en
+NAME,English
+MCU_NAM,More CitizenUnits
+MCU_DESC,Increases the number of CitizenUnits (NOT citizens!) supported by the game.
+MCU_FIX,Detect and fix invalid CitizenUnits on load
+MCU_CLEAN,Recover from CitizenUnit array corruption
+MCU_NUKE,Reset entire CitizenUnit array on next load
+MCU_NUKE_TXT1,Selecting this option will rebuild your city's entire CitizenUnit array from scratch the next time you load it. This will reset all vehicle and building capacities to their current calculated value (including effects of mods such as Ploppable RICO Revisited and Realistic Population) and allocate your exisiting population to the fixed values as best as possible.
+MCU_NUKE_TXT2,"This option may result in a temporary drop in city population, but will ensure that any data corruption is fixed."
+MCU_NUKE_TXT3,"Try this if you are experiencing errors that could indicate a corrupted CitizenUnit array, such as buildings with 0/0 populations even when the CitizenUnit limit hasn't been reached, or buildings whose populations seem to fluctuate for no reason."
+MCU_NUKE_TXT4,"This option will automatically deactivate once used, as it shouldn't need to be used more than once."
+TRN_CHOICE,Set language
+TRN_SYS,Use game language

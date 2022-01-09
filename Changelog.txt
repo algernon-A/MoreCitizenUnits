@@ -1,4 +1,6 @@
-﻿- Fix invalid CitizenUnit check identifying false positives with certain flag combinations
+﻿
+- Convert translation framework to CSV (for CrowdIn)
+- Fix invalid CitizenUnit check identifying false positives with certain flag combinations
 
 
 Version 0.8 -

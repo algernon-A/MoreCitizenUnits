@@ -24,9 +24,9 @@ namespace MoreCitizenUnits
         [XmlElement("Language")]
         public string Language
         {
-            get => Translations.Language;
+            get => Translations.CurrentLanguage;
 
-            set => Translations.Language = value;
+            set => Translations.CurrentLanguage = value;
         }
 
 
