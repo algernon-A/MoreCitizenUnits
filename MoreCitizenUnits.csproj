@@ -81,9 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Translations\de-DE.csv" />
     <None Include="Translations\en.csv" />
-    <None Include="Translations\ja.csv" />
-    <None Include="Translations\zh.csv" />
+    <None Include="Translations\ja-JP.csv" />
+    <None Include="Translations\zh-CN.csv" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
