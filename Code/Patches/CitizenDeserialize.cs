@@ -68,7 +68,13 @@ namespace MoreCitizenUnits
                         // Iterate forward, dropping all instructions until we reach our target (next stloc.s 6), then continue on as normal.
                         do
                         {
-                            instructionsEnumerator.MoveNext();
+                            // This should never happen, but just in case....
+                            if(!instructionsEnumerator.MoveNext())
+                            {
+                                Logging.Error("Couldn't find Stloc_S");
+                                yield break;
+                            }
+
                             instruction = instructionsEnumerator.Current;
                         }
                         while (!(instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder localBuilder && localBuilder.LocalIndex == num2VarIndex));
