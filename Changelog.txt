@@ -1,4 +1,7 @@
-﻿Version 0.9 -
+﻿- Fix dead bodies occasionally not being collected from airport buildings that have been modded to handle more than 2.5 million simultaneous visitors
+
+
+Version 0.9 -
 
 - Convert translation framework to CSV (for CrowdIn)
 - Fix invalid CitizenUnit check identifying false positives with certain flag combinations

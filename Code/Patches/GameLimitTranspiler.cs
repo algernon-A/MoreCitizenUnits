@@ -122,6 +122,9 @@ namespace MoreCitizenUnits
             yield return AccessTools.Method(typeof(VehicleManager.Data), nameof(VehicleManager.Data.AfterDeserialize));
             // CitizenManager.SimulationStepImpl is patched in SimulationStepImplPatch.
             // CityServiceWorldInfoPanel.UpdateWorkers
+            yield return AccessTools.Method(typeof(AirportBuildingAI), "HandleDead");
+            yield return AccessTools.Method(typeof(AirportCargoGateAI), "HandleDead");
+            yield return AccessTools.Method(typeof(AirportGateAI), "HandleDead");
         }
 
 
