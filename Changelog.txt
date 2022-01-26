@@ -1,4 +1,6 @@
-﻿- Fix dead bodies occasionally not being collected from airport buildings that have been modded to handle more than 2.5 million simultaneous visitors
+﻿Version 1.0 -
+
+- Fix dead bodies occasionally not being collected from airport buildings that have been modded to handle more than 2.5 million simultaneous visitors
 
 
 Version 0.9 -
