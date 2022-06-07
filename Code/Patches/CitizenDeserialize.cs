@@ -150,9 +150,12 @@ namespace MoreCitizenUnits
                 }
                 else
                 {
-                    Logging.Message("using existing vanilla buffer");
+                    Logging.Message("using vanilla buffer size");
                 }
             }
+
+            // Update TM:PE CitizenUnit array reference.
+            ModUtils.UpdateTMPEUnitsRef();
 
             Logging.Message("finished CitizenManager.Data.Deserialize Prefix");
         }

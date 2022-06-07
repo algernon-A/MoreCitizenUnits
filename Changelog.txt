@@ -1,4 +1,5 @@
 ﻿- Add option to disable CitizenUnit array expansion (use vanilla buffer), for e.g. using the CitizenUnit check and repair functions without having to use expanded limits
+- Fix TM:PE bug where TM:PE retains stale CitizenUnit array references
 - Update CitiesHarmony API to 2.1.0
 
 

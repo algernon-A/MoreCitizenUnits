@@ -132,6 +132,11 @@ namespace MoreCitizenUnits
                     }
                 }
             }
+
+			// Finally, restore original citizen array.
+			Logging.Message("restoring original citizen buffer");
+			newCitizenBuffer.CopyTo(oldCitizenBuffer, 0);
+			citizenManager.m_citizens.m_buffer = oldCitizenBuffer;
 		}
 
 

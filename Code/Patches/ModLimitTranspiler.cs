@@ -23,7 +23,7 @@ namespace MoreCitizenUnits
             }
 
             // TM:PE.
-            Assembly tmpe = ModUtils.GetEnabledAssembly("TrafficManager");
+            Assembly tmpe = ModUtils.TMPE;
             if (tmpe != null)
             {
                 Logging.Message("reflecting TM:PE");

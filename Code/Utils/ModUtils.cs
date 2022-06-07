@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using ICities;
+using ColossalFramework;
 using ColossalFramework.Plugins;
 
 
@@ -13,6 +15,27 @@ namespace MoreCitizenUnits
     /// </summary>
     internal static class ModUtils
     {
+        // Specific reference to TM:PE assembly.
+        private static Assembly tmpe;
+
+
+        /// <summary>
+        /// The TM:PE assembly reference.
+        /// </summary>
+        internal static Assembly TMPE
+        {
+            get
+            {
+                if (tmpe == null)
+                {
+                    tmpe = GetEnabledAssembly("TrafficManager");
+                }
+
+                return tmpe;
+            }
+        }
+
+
         /// <summary>
         /// Returns the filepath of the current mod assembly.
         /// </summary>
@@ -77,6 +100,36 @@ namespace MoreCitizenUnits
             // If we've made it here, then we haven't found a matching assembly.
             Logging.Message("didn't find enabled assembly ", assemblyName);
             return null;
+        }
+
+
+        /// <summary>
+        /// Uses reflection to forcibly update TM:PE CitizenUnitExtensions._citizenUnitBuffer field to correct value (current game CitizenUnit buffer).
+        /// </summary>
+        internal static void UpdateTMPEUnitsRef()
+        {
+            if (TMPE != null)
+            {
+                Logging.Message("reflecting TM:PE CitizenUnit buffer");
+                string targetName = "TrafficManager.Util.Extensions.CitizenUnitExtensions";
+                Type citizenUnitExtensions = tmpe.GetType(targetName);
+
+                if (citizenUnitExtensions != null)
+                {
+                    targetName = "_citizenUnitBuffer";
+                    FieldInfo citizenUnitBuffer = citizenUnitExtensions.GetField(targetName, BindingFlags.Static | BindingFlags.NonPublic);
+                    if (citizenUnitBuffer != null)
+                    {
+                        Logging.Message("forcibly updating TM:PE CitizenUnit buffer reference");
+                        citizenUnitBuffer.SetValue(null, Singleton<CitizenManager>.instance.m_units.m_buffer);
+                        return;
+                    }
+
+                }
+
+                // If we got here, reflection failed somewhere.
+                Logging.Error("couldn't reflect ", targetName);
+            }
         }
     }
 }
