@@ -29,6 +29,8 @@ namespace MoreCitizenUnits
             set => Translations.CurrentLanguage = value;
         }
 
+        [XmlElement("DoubleUnits")]
+        public bool XMLDoubleUnits { get => CitizenDeserialze.DoubleLimit; set => CitizenDeserialze.DoubleLimit = value; }
 
         [XmlElement("CheckUnits")]
         public bool XMLCheckUnits { get => CitizenDeserialze.checkUnits; set => CitizenDeserialze.checkUnits = value; }

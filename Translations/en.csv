@@ -2,6 +2,10 @@ CODE,en
 NAME,English
 MCU_NAM,More CitizenUnits
 MCU_DESC,Increases the number of CitizenUnits (NOT citizens!) supported by the game.
+MCU_BOOST,Increase CitizenUnit limit (base game: 524,288)
+MCU_X2,Increase CitizenUnit limit to 1,048,576
+MCU_BOOST_TXT1,Games saved with expanded CitizenUnit limits will NOT be reloadable without this mod. This is NOT reversible.
+MCU_BOOST_TXT2,Saves with expanded CitizenUnit limits will always be loaded with the expanded limit.
 MCU_FIX,Detect and fix invalid CitizenUnits on load
 MCU_CLEAN,Recover from CitizenUnit array corruption
 MCU_NUKE,Reset entire CitizenUnit array on next load

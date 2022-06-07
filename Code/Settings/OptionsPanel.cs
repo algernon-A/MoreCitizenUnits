@@ -26,6 +26,9 @@ namespace MoreCitizenUnits
         /// </summary>
         internal void Setup(float width, float height)
         {
+            // Get font reference.
+            UIFont semiBold = Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Semibold");
+
             // Size and placement.
             autoSize = false;
             autoLayout = false;
@@ -43,14 +46,31 @@ namespace MoreCitizenUnits
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);
             currentY += languageDropDown.parent.height + GroupMargin;
 
+
+            // Double units title and checkbox.
+            AddTitle(this, "MCU_BOOST", semiBold, maxWidth);
+            UICheckBox doubleCheck = UIControls.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_X2"));
+            doubleCheck.isChecked = CitizenDeserialze.DoubleLimit;
+            doubleCheck.eventCheckChanged += (control, value) => { CitizenDeserialze.DoubleLimit = value; };
+            currentY += doubleCheck.height + Margin;
+
+            // Add double units text.
+            UILabel boost1 = UIControls.AddLabel(this, TitleMargin, currentY, Translations.Translate("MCU_BOOST_TXT1"), maxWidth, 0.9f);
+            currentY += boost1.height + TitleMargin;
+            UILabel boost2 = UIControls.AddLabel(this, TitleMargin, currentY, Translations.Translate("MCU_BOOST_TXT2"), maxWidth, 0.9f);
+            currentY += boost2.height + GroupMargin;
+
+            // Cleaning options title.
+            AddTitle(this, "MCU_CLEAN", semiBold, maxWidth);
+            currentY += boost2.height + TitleMargin;
+
             // Check and fix checkbox.
             UICheckBox fixCheck = UIControls.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_FIX"));
             fixCheck.isChecked = CitizenDeserialze.checkUnits;
             fixCheck.eventCheckChanged += (control, value) => { CitizenDeserialze.checkUnits = value; };
-            currentY += fixCheck.height + Margin;
+            currentY += fixCheck.height + TitleMargin;
 
-            // Nuke options checkbox.
-            AddTitle(this, "MCU_CLEAN", Resources.FindObjectsOfTypeAll<UIFont>().FirstOrDefault((UIFont f) => f.name == "OpenSans-Semibold"), maxWidth);
+            // Nuke checkbox.
             UICheckBox nukeCheck = UIControls.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_NUKE"));
             nukeCheck.isChecked = ModSettings.nukeAll;
             nukeCheck.eventCheckChanged += (control, value) => { ModSettings.nukeAll = value; };

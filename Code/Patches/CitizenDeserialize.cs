@@ -16,14 +16,28 @@ namespace MoreCitizenUnits
         // Constants.
         private const int OriginalUnitCount = 524288;
         private const int ExtraUnitCount = OriginalUnitCount;
-        internal const int NewUnitCount = ExtraUnitCount + OriginalUnitCount;
+        internal const uint NewUnitCount = ExtraUnitCount + OriginalUnitCount;
+        
 
+        // Automatically double limits on virgin savegames.
+        private static bool doubleLimit = true;
 
         // Check for (and fix) invalid units on load.
         internal static bool checkUnits = false;
 
         // Status flag - are we loading an expanded CitizenUnit array?
         internal static bool loadingExpanded = false;
+
+
+        /// <summary>
+        /// Activates CitizenUnit limit doubling.
+        /// </summary>
+        internal static bool DoubleLimit
+        {
+            get => doubleLimit;
+
+            set => doubleLimit = value;
+        }
 
 
         /// <summary>
@@ -97,27 +111,47 @@ namespace MoreCitizenUnits
         {
             Logging.Message("starting CitizenManager.Data.Deserialize Prefix");
 
+            // Detect if we're loading an expanded or original CitizenUnit array.
+            loadingExpanded = MetaData.LoadingExtended;
+
+            // If we're loading expanded data, automatically set double limit desearalization.
+            bool usingDouble = doubleLimit | loadingExpanded;
+
             // Check to see if CitizenUnit array has been correctly resized.
             Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
             if (units.m_buffer.Length == NewUnitCount)
             {
-                // Detect if we're loading an expanded or original CitizenUnit array.
-                loadingExpanded = MetaData.LoadingExtended;
-
-                // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with.
-                if (!loadingExpanded)
+                // Are we using double limits (deliberately or because we're loading expanded data)?
+                if (usingDouble)
                 {
-                    Logging.Message("expanding from Vanilla save data");
-                    Array.Clear(units.m_buffer, 0, units.m_buffer.Length);
-                }
+                    // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with (just in case).
+                    if (!loadingExpanded)
+                    {
+                        Logging.KeyMessage("expanding from Vanilla save data");
+                        Array.Clear(units.m_buffer, 0, units.m_buffer.Length);
+                    }
 
-                // Apply SimulationStep transpiler.
-                Patcher.TranspileSimulationStep();
+                    // Apply SimulationStep transpiler.
+                    Patcher.TranspileSimulationStep();
+                }
+                else
+                {
+                    // Not using double limits; resize back to vanilla (array will be completely refilled from save data, so no need to clear).
+                    Logging.KeyMessage("resetting to vanilla buffer size");
+                    Singleton<CitizenManager>.instance.m_units = new Array32<CitizenUnit>(CitizenManager.MAX_UNIT_COUNT);
+                }
             }
             else
             {
-                // Buffer wasn't extended.
-                Logging.Error("CitizenUnit buffer not extended");
+                // Buffer wasn't extended - is this intentional?
+                if (!usingDouble)
+                {
+                    Logging.Error("CitizenUnit buffer not extended");
+                }
+                else
+                {
+                    Logging.Message("using existing vanilla buffer");
+                }
             }
 
             Logging.Message("finished CitizenManager.Data.Deserialize Prefix");
@@ -156,7 +190,6 @@ namespace MoreCitizenUnits
                 }
             }
 
-
             Logging.Message("finished CitizenManager.Data.Deserialize Postfix");
         }
 
@@ -164,6 +197,6 @@ namespace MoreCitizenUnits
         /// <summary>
         /// Returns the correct size to deserialize a saved game array.
         /// </summary>
-        public static int DeserialiseSize => loadingExpanded ? NewUnitCount : OriginalUnitCount;
+        public static uint DeserialiseSize => loadingExpanded ? NewUnitCount : OriginalUnitCount;
     }
 }

@@ -1,4 +1,7 @@
-﻿Version 1.0 -
+﻿- Add option to disable CitizenUnit array expansion (use vanilla buffer), for e.g. using the CitizenUnit check and repair functions without having to use expanded limits
+
+
+Version 1.0 -
 
 - Fix dead bodies occasionally not being collected from airport buildings that have been modded to handle more than 2.5 million simultaneous visitors
 
