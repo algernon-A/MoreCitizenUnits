@@ -5,16 +5,16 @@ using HarmonyLib;
 namespace MoreCitizenUnits
 {
     /// <summary>
-    /// Harmony Postfix patch for OnLevelLoaded.  This enables us to perform setup tasks after all loading has been completed.
+    /// Harmony Prefix patch for LoadingManager.LoadLevelComplete.  This enables us to perform setup tasks after all loading has been completed, but before OnLevelLoaded is called.
     /// </summary>
-    [HarmonyPatch(typeof(LoadingWrapper))]
-    [HarmonyPatch("OnLevelLoaded")]
-    public static class OnLevelLoadedPatch
+    [HarmonyPatch(typeof(LoadingManager))]
+    [HarmonyPatch("LoadLevelComplete")]
+    public static class LoadLevelComplete
     {
         /// <summary>
         /// Harmony postfix to perform actions require after the level has loaded.
         /// </summary>
-        public static void Postfix()
+        public static void Prefix()
         {
             // Get buffer size.
             Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
