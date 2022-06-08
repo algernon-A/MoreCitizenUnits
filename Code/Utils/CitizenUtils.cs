@@ -22,10 +22,10 @@ namespace MoreCitizenUnits
 			bool allocating;
 			do
 			{
-				allocating = citizenManager.m_citizens.CreateItem(out uint itemID);
+				allocating = citizenManager.m_citizens.CreateItem(out uint _);
 			} while (!allocating);
 
-			// Iterate through each Citizen Instance and copy each citizen referred to.
+			// Iterate through each citizen and release any with invalid flags.
 			for (uint i = 0; i < citizenBuffer.Length; ++i)
 			{
 				if (citizenBuffer[i].m_flags == Citizen.Flags.None)
