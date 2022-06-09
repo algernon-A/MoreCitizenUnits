@@ -13,7 +13,8 @@ namespace MoreCitizenUnits
 		/// <summary>
 		/// Copies CitizenUnits from a deserialized array to a new clean array.
 		/// </summary>
-		internal static void ResetUnits()
+		/// <param name="preserveExisting">Preserve existing units where possible</param>
+		internal static void ResetUnits(bool preserveExisting)
 		{
 			// Manager references.
 			CitizenManager citizenManager = Singleton<CitizenManager>.instance;
@@ -100,7 +101,7 @@ namespace MoreCitizenUnits
 
 					// Attempt to copy unit from old record into building.
 					Logging.Message("attempting to copy building unit ", i, " with citizen count of ", citizenCount);
-					if (CopyUnit(buildingBuffer[buildingID].m_citizenUnits, ref oldUnit, newUnitBuffer))
+					if (CopyUnit(buildingBuffer[buildingID].m_citizenUnits, ref oldUnit, newUnitBuffer, preserveExisting))
 					{
 						// Succesful copy - clear old unit so we don't end up double-assigning citizens due to corrupted unit chains.
 						oldUnitBuffer[i] = default(CitizenUnit);
@@ -118,9 +119,9 @@ namespace MoreCitizenUnits
 						continue;
 					}
 
-					// Attempt to copy unit from old record into vehicle.
+					// Attempt to copy unit from old record into vehicle (don't preserve existing units here).
 					Logging.Message("attempting to copy vehicle unit ", i, " with citizen count of ", citizenCount);
-					if (CopyUnit(vehicleBuffer[vehicleID].m_citizenUnits, ref oldUnit, newUnitBuffer))
+					if (CopyUnit(vehicleBuffer[vehicleID].m_citizenUnits, ref oldUnit, newUnitBuffer, false))
 					{
 						// Succesful copy - clear old unit so we don't end up double-assigning citizens due to corrupted unit chains.
 						oldUnitBuffer[i] = default(CitizenUnit);
@@ -176,8 +177,9 @@ namespace MoreCitizenUnits
 		/// <param name="startUnit">Starting CitizenUnit of (new) chain</param>
 		/// <param name="oldUnit">Old CitizenUnit to copy</param>
 		/// <param name="newUnitBuffer">New CitizenUnit buffer to copy into</param>
+		/// <param name="preserveExisting">Preserve existing units where possible</param>
 		/// <returns>True if copying was succesful, false otherwise (if no empty unit in the chain was found)</returns>
-		private static bool CopyUnit(uint startUnit, ref CitizenUnit oldUnit, CitizenUnit[] newUnitBuffer)
+		private static bool CopyUnit(uint startUnit, ref CitizenUnit oldUnit, CitizenUnit[] newUnitBuffer, bool preserveExisting)
 		{
 			uint newUnitID = startUnit;
 
@@ -209,7 +211,7 @@ namespace MoreCitizenUnits
 				uint nextUnitID = newUnitBuffer[newUnitID].m_nextUnit;
 
 				// If we've exhausted the chain, try to add a new unit to this building to accomodate the excess old one.
-				if (nextUnitID == 0)
+				if (preserveExisting & nextUnitID == 0)
 				{
 					// Attempt unit creation.
 					Singleton<CitizenManager>.instance.m_units.CreateItem(out uint newUnit, ref Singleton<SimulationManager>.instance.m_randomizer);

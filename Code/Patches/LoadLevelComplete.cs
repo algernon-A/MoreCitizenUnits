@@ -24,8 +24,8 @@ namespace MoreCitizenUnits
             // If we're doing a clean reset, do so.
             if (ModSettings.nukeAll)
             {
-                //Singleton<SimulationManager>.instance.AddAction(() => UnitUtils.ResetUnits());
-                UnitUtils.ResetUnits();
+                // Don't preserve existing units by default.
+                UnitUtils.ResetUnits(false);
 
                 // Update TMPE CitizenUnit reference.
                 ModUtils.UpdateTMPEUnitsRef();
