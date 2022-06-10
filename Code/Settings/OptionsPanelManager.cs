@@ -112,7 +112,7 @@ namespace MoreCitizenUnits
                     panel.relativePosition = new Vector2(10f, 10f);
 
                     // Set up and show panel.
-                    Panel.Setup(optionsPanel.width, optionsPanel.height);
+                    Panel.Setup();
                 }
             }
             catch (Exception e)
