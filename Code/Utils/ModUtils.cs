@@ -124,7 +124,6 @@ namespace MoreCitizenUnits
                         citizenUnitBuffer.SetValue(null, Singleton<CitizenManager>.instance.m_units.m_buffer);
                         return;
                     }
-
                 }
 
                 // If we got here, reflection failed somewhere.

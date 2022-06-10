@@ -32,8 +32,6 @@ namespace MoreCitizenUnits
             // Size and placement.
             autoSize = false;
             autoLayout = false;
-            this.width = width - 22f;
-            this.height = height - 22f;
             float maxWidth = this.width - (TitleMargin * 2f);
 
             // Language choice.
@@ -41,6 +39,7 @@ namespace MoreCitizenUnits
             languageDropDown.eventSelectedIndexChanged += (control, index) =>
             {
                 Translations.Index = index;
+                OptionsPanelManager.LocaleChanged();
                 ModSettings.Save();
             };
             languageDropDown.parent.relativePosition = new Vector2(LeftMargin, currentY);

@@ -104,9 +104,14 @@ namespace MoreCitizenUnits
                     optionsGameObject.transform.parent = optionsPanel.transform;
 
                     panel = optionsGameObject.AddComponent<MCUOptionsPanel>();
+                    panel.width = optionsPanel.width - 10f;
+                    panel.height = 725f;
+                    panel.clipChildren = false;
+
+                    // Needed to ensure position is consistent if we regenerate after initial opening (e.g. on language change).
+                    panel.relativePosition = new Vector2(10f, 10f);
 
                     // Set up and show panel.
-                    //Panel.Setup(Mathf.Max(optionsPanel.width, 764f), Mathf.Max(optionsPanel.height,773f));
                     Panel.Setup(optionsPanel.width, optionsPanel.height);
                 }
             }
