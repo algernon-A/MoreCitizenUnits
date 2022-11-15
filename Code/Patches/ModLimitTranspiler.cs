@@ -11,30 +11,6 @@ namespace MoreCitizenUnits
     internal static class ModLimitTranspiler
     {
         /// <summary>
-        /// Determines list of target methods to patch - in this case, identified mods and methods with hardcoded CitizenUnit limits.
-        /// </summary>
-        /// <returns>List of target methods to patch</returns>
-        internal static void PatchMods(Harmony harmony)
-        {
-            if (harmony == null)
-            {
-                Logging.Error("null harmony instance passed to PatchMods");
-                return;
-            }
-
-            // TM:PE.
-            Assembly tmpe = ModUtils.TMPE;
-            if (tmpe != null)
-            {
-                Logging.Message("reflecting TM:PE");
-                PatchModMethod(harmony, tmpe.GetType("TrafficManager.Manager.Impl.ExtVehicleManager"), "GetDriverInstanceId");
-                PatchModMethod(harmony, tmpe.GetType("TrafficManager.Manager.Impl.VehicleBehaviorManager"), "ParkPassengerCar");
-                PatchModMethod(harmony, tmpe.GetType("TrafficManager.Patch._VehicleAI._PassengerCarAI.ParkVehiclePatch"), "Prefix");
-            }
-        }
-
-
-        /// <summary>
         /// Attempts to transpile hardcoded CitizenUnit limits in the given method from the given type. 
         /// </summary>
         /// <param name="harmony">Harmony instance</param>

@@ -63,13 +63,6 @@ namespace MoreCitizenUnits
             }
         }
 
-
-        /// <summary>
-        ///  Apply Harmony patches to mods.
-        /// </summary>
-        public static void PatchMods() => ModLimitTranspiler.PatchMods(new Harmony(harmonyID));
-
-
         /// <summary>
         /// Applies patches to CitizenManager.SimulationStepImpl to change the simulation frame size for CitizenUnits.
         /// </summary>

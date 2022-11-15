@@ -127,7 +127,7 @@ namespace MoreCitizenUnits
                 }
 
                 // If we got here, reflection failed somewhere.
-                Logging.Error("couldn't reflect ", targetName);
+                Logging.Message("couldn't reflect ", targetName);
             }
         }
     }

@@ -16,9 +16,6 @@ namespace MoreCitizenUnits
         {
             Logging.KeyMessage("version ", MCUMod.Version, " loading");
 
-            // Apply Harmony patches to mods.
-            Patcher.PatchMods();
-
             base.OnCreated(loading);
         }
     }
