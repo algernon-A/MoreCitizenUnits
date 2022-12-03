@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
-
+﻿// <copyright file="GameLimitTranspiler.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Reflection.Emit;
+    using AlgernonCommons;
+    using HarmonyLib;
+
     /// <summary>
     /// Harmony transpilers to replace hardcoded CitizenUnit limits in the game.
     /// </summary>
@@ -126,7 +131,6 @@ namespace MoreCitizenUnits
             yield return AccessTools.Method(typeof(AirportCargoGateAI), "HandleDead");
             yield return AccessTools.Method(typeof(AirportGateAI), "HandleDead");
         }
-
 
         /// <summary>
         /// Harmony transpiler to replace hardcoded CitizenUnit limits.

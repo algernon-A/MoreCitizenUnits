@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
-using ColossalFramework;
-
+﻿// <copyright file="CitizenUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
-	/// <summary>
-	/// Utilities class for dealing with CitizenUnits.
-	/// </summary>
-	internal static class CitizenUtils
+    using System.Collections.Generic;
+	using AlgernonCommons;
+    using ColossalFramework;
+
+    /// <summary>
+    /// Utilities class for dealing with CitizenUnits.
+    /// </summary>
+    internal static class CitizenUtils
 	{
 		// Hashset of allocated citizen IDs.
 		private static HashSet<uint> allocatedCitizens;
@@ -34,7 +39,6 @@ namespace MoreCitizenUnits
 				}
 			}
 		}
-
 
 		/// <summary>
 		/// Copies CitizenUnits from a deserialized array to a new clean array.
@@ -138,7 +142,6 @@ namespace MoreCitizenUnits
 			newCitizenBuffer.CopyTo(oldCitizenBuffer, 0);
 			citizenManager.m_citizens.m_buffer = oldCitizenBuffer;
 		}
-
 
 		/// <summary>
 		/// Tries to copy a Citizen from the given old buffer to the given new buffer.

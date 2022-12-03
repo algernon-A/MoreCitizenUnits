@@ -1,10 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
-
+﻿// <copyright file="ModSettings.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using System;
+    using System.IO;
+    using System.Xml.Serialization;
+    using AlgernonCommons;
+    using AlgernonCommons.Translation;
+
     /// <summary>
     /// Global mod settings.
     /// </summary>
@@ -19,7 +25,6 @@ namespace MoreCitizenUnits
         [XmlIgnore]
         internal static bool nukeAll = false;
 
-
         // Language.
         [XmlElement("Language")]
         public string Language
@@ -33,11 +38,10 @@ namespace MoreCitizenUnits
         public bool XMLDoubleUnits { get => CitizenDeserialze.DoubleLimit; set => CitizenDeserialze.DoubleLimit = value; }
 
         [XmlElement("CheckUnits")]
-        public bool XMLCheckUnits { get => CitizenDeserialze.checkUnits; set => CitizenDeserialze.checkUnits = value; }
+        public bool XMLCheckUnits { get => CitizenDeserialze.s_checkUnits; set => CitizenDeserialze.s_checkUnits = value; }
 
         [XmlElement("ResetUnits")]
         public bool XMLResetUnits { get => nukeAll; set => nukeAll = value; }
-
 
         /// <summary>
         /// Load settings from XML file.
@@ -69,7 +73,6 @@ namespace MoreCitizenUnits
                 Logging.LogException(e, "exception reading XML settings file");
             }
         }
-
 
         /// <summary>
         /// Save settings to XML file.

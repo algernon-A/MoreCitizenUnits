@@ -1,10 +1,15 @@
-﻿using System;
-using System.Reflection;
-using HarmonyLib;
-
+﻿// <copyright file="ModLimitTranspiler.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using System;
+    using System.Reflection;
+    using AlgernonCommons;
+    using HarmonyLib;
+
     /// <summary>
     /// Harmony transpilers to replace hardcoded CitizenUnit limits in mods.
     /// </summary>

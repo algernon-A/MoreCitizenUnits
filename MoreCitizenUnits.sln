@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreCitizenUnits", "MoreCitizenUnits.csproj", "{C568CD8E-A234-4750-96CD-F2D7FBCAE524}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoreCitizenUnits", "MoreCitizenUnits.csproj", "{C568CD8E-A234-4750-96CD-F2D7FBCAE524}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AlgernonCommonsPatchingShared", "..\AlgernonCommons\AlgernonCommonsPatchingShared.shproj", "{25AEF446-6F0D-43A8-BB84-D1306789B68C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,5 +23,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC23D0F1-478F-4E60-8D07-DE6DE537A77F}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\AlgernonCommons\AlgernonCommonsPatchingShared.projitems*{25aef446-6f0d-43a8-bb84-d1306789b68c}*SharedItemsImports = 13
+		..\AlgernonCommons\AlgernonCommonsPatchingShared.projitems*{c568cd8e-a234-4750-96cd-f2d7fbcae524}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

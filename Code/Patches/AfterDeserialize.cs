@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
-using ColossalFramework;
-using HarmonyLib;
+﻿// <copyright file="AfterDeserialize.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits.Code.Patches
 {
+    using System.Collections.Generic;
+    using AlgernonCommons;
+    using ColossalFramework;
+    using HarmonyLib;
+
     public static class AfterDeserialize
     {
         [HarmonyPatch(typeof(CitizenManager.Data), nameof(CitizenManager.Data.AfterDeserialize))]
@@ -24,7 +30,7 @@ namespace MoreCitizenUnits.Code.Patches
                 Logging.Message("starting CitizenManager.Data.AfterDeserialize Postfix with unitBuffer size ", Singleton<CitizenManager>.instance.m_units.m_buffer.Length);
 
                 // Check for and fix invalid units, if set, or if expanding from Vanilla (needed to properly reset unused unit count and list of newly-expanded vanilla array).
-                if ((CitizenDeserialze.checkUnits && !ModSettings.nukeAll) || !CitizenDeserialze.loadingExpanded)
+                if ((CitizenDeserialze.s_checkUnits && !ModSettings.nukeAll) || !CitizenDeserialze.s_loadingExpanded)
                 {
                     Logging.Message("checking units");
 

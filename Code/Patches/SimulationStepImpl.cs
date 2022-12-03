@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Reflection.Emit;
-using HarmonyLib;
-
+﻿// <copyright file="SimulationStepImpl.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using System.Collections.Generic;
+    using System.Reflection.Emit;
+    using AlgernonCommons;
+    using HarmonyLib;
+
     /// <summary>
     /// Harmony transpiler to increase simulation CitizenUnit frame size to meet new limit.
     /// </summary>

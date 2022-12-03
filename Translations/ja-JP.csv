@@ -1,5 +1,4 @@
-"CODE","ja"
-"NAME","日本語"
+"LANGUAGE","日本語"
 "MCU_NAM","More CitizenUnits"
 "MCU_DESC","ゲームでサポートされている、CitizenUnits(Citizensではなく) の数を増やします"
 "MCU_BOOST","CitizenUnitの制限数を拡張 (デフォルトの制限数: 524,288)"

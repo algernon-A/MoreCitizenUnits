@@ -1,12 +1,18 @@
-﻿using System;
-using System.Reflection.Emit;
-using System.Collections.Generic;
-using ColossalFramework;
-using HarmonyLib;
-
+﻿// <copyright file="CitizenDeserialize.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection.Emit;
+    using AlgernonCommons;
+    using AlgernonCommons.Patching;
+    using ColossalFramework;
+    using HarmonyLib;
+
     /// <summary>
     /// Harmony patch to handle deserialization of game CitizenUnit data.
     /// </summary>
@@ -18,27 +24,24 @@ namespace MoreCitizenUnits
         private const int ExtraUnitCount = OriginalUnitCount;
         internal const uint NewUnitCount = ExtraUnitCount + OriginalUnitCount;
         
-
         // Automatically double limits on virgin savegames.
-        private static bool doubleLimit = true;
+        private static bool s_doubleLimit = true;
 
         // Check for (and fix) invalid units on load.
-        internal static bool checkUnits = false;
+        internal static bool s_checkUnits = false;
 
         // Status flag - are we loading an expanded CitizenUnit array?
-        internal static bool loadingExpanded = false;
-
+        internal static bool s_loadingExpanded = false;
 
         /// <summary>
         /// Activates CitizenUnit limit doubling.
         /// </summary>
         internal static bool DoubleLimit
         {
-            get => doubleLimit;
+            get => s_doubleLimit;
 
-            set => doubleLimit = value;
+            set => s_doubleLimit = value;
         }
-
 
         /// <summary>
         /// Harmony Transpilier for CitizenManager.Data.Deserialize to increase the size of the CitizenUnit array at deserialization.
@@ -101,7 +104,6 @@ namespace MoreCitizenUnits
             }
         }
 
-
         /// <summary>
         /// Harmony Prefix patch for CitizenManager.Data.Deserialize to determine if this mod was active when the game was saved.
         /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
@@ -112,10 +114,10 @@ namespace MoreCitizenUnits
             Logging.Message("starting CitizenManager.Data.Deserialize Prefix");
 
             // Detect if we're loading an expanded or original CitizenUnit array.
-            loadingExpanded = MetaData.LoadingExtended;
+            s_loadingExpanded = MetaData.LoadingExtended;
 
             // If we're loading expanded data, automatically set double limit desearalization.
-            bool usingDouble = doubleLimit | loadingExpanded;
+            bool usingDouble = s_doubleLimit | s_loadingExpanded;
 
             // Check to see if CitizenUnit array has been correctly resized.
             Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
@@ -125,14 +127,14 @@ namespace MoreCitizenUnits
                 if (usingDouble)
                 {
                     // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with (just in case).
-                    if (!loadingExpanded)
+                    if (!s_loadingExpanded)
                     {
                         Logging.KeyMessage("expanding from Vanilla save data");
                         Array.Clear(units.m_buffer, 0, units.m_buffer.Length);
                     }
 
                     // Apply SimulationStep transpiler.
-                    Patcher.TranspileSimulationStep();
+                    PatcherManager<Patcher>.Instance.TranspileSimulationStep();
                 }
                 else
                 {
@@ -160,7 +162,6 @@ namespace MoreCitizenUnits
             Logging.Message("finished CitizenManager.Data.Deserialize Prefix");
         }
 
-
         /// <summary>
         /// Harmony Postfix patch for CitizenManager.Data.Deserialize to ensure proper unused item allocation and count after conversion from vanilla save data.
         /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
@@ -175,7 +176,7 @@ namespace MoreCitizenUnits
             Logging.Message("starting CitizenManager.Data.Deserialize Postfix with unitBuffer size ", unitBuffer.Length);
 
             // If expanding from vanilla saved data, ensure all new units are properly cleared.
-            if (!loadingExpanded)
+            if (!s_loadingExpanded)
             {
                 // Iterate through each unit in buffer.
                 for (uint i = OriginalUnitCount; i < unitBuffer.Length; ++i)
@@ -196,10 +197,9 @@ namespace MoreCitizenUnits
             Logging.Message("finished CitizenManager.Data.Deserialize Postfix");
         }
 
-
         /// <summary>
         /// Returns the correct size to deserialize a saved game array.
         /// </summary>
-        public static uint DeserialiseSize => loadingExpanded ? NewUnitCount : OriginalUnitCount;
+        public static uint DeserialiseSize => s_loadingExpanded ? NewUnitCount : OriginalUnitCount;
     }
 }

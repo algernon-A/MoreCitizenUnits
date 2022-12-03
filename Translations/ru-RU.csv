@@ -1,5 +1,4 @@
-"CODE","ru"
-"NAME","Русский"
+"LANGUAGE","Русский"
 "MCU_NAM","Больше CitizenUnits"
 "MCU_DESC","Увеличивает количество CitizenUnits (НЕ граждан!), поддерживаемых игрой."
 "MCU_BOOST","Увеличить ограничение CitizenUnit (базовая игра: 524,288)"

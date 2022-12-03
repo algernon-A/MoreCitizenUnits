@@ -1,13 +1,18 @@
-﻿using UnityEngine;
-using ColossalFramework;
-using ColossalFramework.Math;
-
+﻿// <copyright file="UnitUtils.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
-	/// <summary>
-	/// Utilities class for dealing with CitizenUnits.
-	/// </summary>
+	using AlgernonCommons;
+    using ColossalFramework;
+    using ColossalFramework.Math;
+    using UnityEngine;
+
+    /// <summary>
+    /// Utilities class for dealing with CitizenUnits.
+    /// </summary>
     internal static class UnitUtils
     {
 		/// <summary>
@@ -170,7 +175,6 @@ namespace MoreCitizenUnits
 			Logging.Message("current residential population is ", population);
 		}
 
-
 		/// <summary>
 		/// Tries to copy a CitizenUnit into the given CitizenUnit chain.
 		/// </summary>
@@ -234,7 +238,6 @@ namespace MoreCitizenUnits
 			Logging.Message("no empty unit to copy to");
 			return false;
 		}
-
 
 		/// <summary>
 		/// Resets the CitizenUnits for all buildings on the map.
@@ -484,7 +487,6 @@ namespace MoreCitizenUnits
 			Logging.Message("finished resetting buildings");
 		}
 
-
 		/// <summary>
 		/// Resets the CitizenUnits for all vehicles on the map.
 		/// </summary>
@@ -607,7 +609,6 @@ namespace MoreCitizenUnits
 
 			Logging.Message("finished resetting vehicles");
 		}
-
 
 		/// <summary>
 		/// Ensures correct allocation of CitizenUnits to a building.

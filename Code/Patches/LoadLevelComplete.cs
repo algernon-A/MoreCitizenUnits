@@ -1,9 +1,15 @@
-﻿using ColossalFramework;
-using HarmonyLib;
-
+﻿// <copyright file="LoadLevelComplete.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using AlgernonCommons;
+    using AlgernonCommons.Patching;
+    using ColossalFramework;
+    using HarmonyLib;
+
     /// <summary>
     /// Harmony Prefix patch for LoadingManager.LoadLevelComplete.  This enables us to perform setup tasks after all loading has been completed, but before OnLevelLoaded is called.
     /// </summary>
@@ -43,17 +49,14 @@ namespace MoreCitizenUnits
                 Logging.KeyMessage("loading complete");
 
                 // List Harmony patches.
-                Patcher.ListMethods();
+                PatcherManager<Patcher>.Instance.ListMethods();
             }
             else
             {
                 // Buffer size not changed - log error and undo Harmony patches.
                 Logging.Error("CitizenUnit array size not increased; aborting operation and reverting Harmony patches");
-                Patcher.UnpatchAll();
+                PatcherManager<Patcher>.Instance.UnpatchAll();
             }
-
-            // Set up options panel event handler (need to redo this now that options panel has been reset after loading into game).
-            OptionsPanelManager.OptionsEventHook();
         }
     }
 }

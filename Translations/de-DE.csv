@@ -1,5 +1,4 @@
-"CODE","de"
-"NAME","Deutsch"
+"LANGUAGE","Deutsch"
 "MCU_NAM","More CitizenUnits"
 "MCU_DESC","Erhöht die Anzahl der vom Spiel unterstützten CitizenUnits (NICHT die Einwohnerzahl!)."
 "MCU_BOOST","Limit für CitizenUnit erhöhen (Basisspiel: 524.288)"

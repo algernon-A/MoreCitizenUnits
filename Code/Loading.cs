@@ -1,22 +1,16 @@
-﻿using ICities;
-
+﻿// <copyright file="Loading.cs" company="algernon (K. Algernon A. Sheppard)">
+// Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
+// Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
+// </copyright>
 
 namespace MoreCitizenUnits
 {
+    using AlgernonCommons.Patching;
+
     /// <summary>
     /// Main loading class: the mod runs from here.
     /// </summary>
-    public class Loading : LoadingExtensionBase
+    public sealed class Loading : PatcherLoadingBase<OptionsPanel, Patcher>
     {
-        /// <summary>
-        /// Called by the game when the mod is initialised at the start of the loading process.
-        /// </summary>
-        /// <param name="loading">Loading mode (e.g. game, editor, scenario, etc.)</param>
-        public override void OnCreated(ILoading loading)
-        {
-            Logging.KeyMessage("version ", MCUMod.Version, " loading");
-
-            base.OnCreated(loading);
-        }
     }
 }
