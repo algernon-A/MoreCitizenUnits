@@ -1,4 +1,6 @@
-﻿- Add detailed debugging logging option
+﻿Version 1.1.2 -
+
+- Add detailed debugging logging option
 - Implement AlgernonCommons
 
 
