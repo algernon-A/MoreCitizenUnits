@@ -1,6 +1,6 @@
 "LANGUAGE","English"
-"MCU_NAM","More CitizenUnits"
-"MCU_DESC","Increases the number of CitizenUnits (NOT citizens!) supported by the game."
+"MOD_NAME","More CitizenUnits"
+"MOD_DESCRIPTION","Increases the number of CitizenUnits (NOT citizens!) supported by the game."
 "MCU_BOOST","Increase CitizenUnit limit (base game: 524,288)"
 "MCU_X2","Increase CitizenUnit limit to 1,048,576"
 "MCU_BOOST_TXT1","Games saved with expanded CitizenUnit limits will NOT be reloadable without this mod. This is NOT reversible."

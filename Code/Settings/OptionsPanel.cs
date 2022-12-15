@@ -5,11 +5,10 @@
 
 namespace MoreCitizenUnits
 {
-    using System.Linq;
+    using AlgernonCommons;
     using AlgernonCommons.Translation;
     using AlgernonCommons.UI;
     using ColossalFramework.UI;
-    using UnityEngine;
 
     /// <summary>
     /// The mod's options panel.
@@ -42,6 +41,12 @@ namespace MoreCitizenUnits
                 OptionsPanelManager<OptionsPanel>.LocaleChanged();
             };
             currentY += languageDropDown.parent.height + Margin;
+
+            // Logging checkbox.
+            UICheckBox loggingCheck = UICheckBoxes.AddPlainCheckBox(this, TitleMargin, currentY, Translations.Translate("DETAIL_LOGGING"));
+            loggingCheck.isChecked = Logging.DetailLogging;
+            loggingCheck.eventCheckChanged += (c, isChecked) => { Logging.DetailLogging = isChecked; };
+            currentY += GroupMargin;
 
             // Double units title and checkbox.
             UISpacers.AddTitleSpacer(this, Margin, currentY, titleWidth, Translations.Translate("MCU_BOOST"));
