@@ -13,7 +13,7 @@ namespace MoreCitizenUnits
     /// <summary>
     /// The mod's options panel.
     /// </summary>
-    public class OptionsPanel : UIPanel
+    public class OptionsPanel : OptionsPanelBase
     {
         // Layout constants.
         private const float Margin = 5f;
@@ -22,9 +22,9 @@ namespace MoreCitizenUnits
         private const float GroupMargin = 55f;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsPanel"/> class.
+        /// Performs on-demand panel setup.
         /// </summary>
-        internal OptionsPanel()
+        protected override void Setup()
         {
             // Size and placement.
             autoLayout = false;
