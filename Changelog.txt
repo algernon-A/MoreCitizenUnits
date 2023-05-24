@@ -1,4 +1,7 @@
-﻿Version 1.1.2 -
+﻿- Update bundled CitiesHarmony.
+
+
+Version 1.1.2 -
 
 - Add detailed debugging logging option
 - Implement AlgernonCommons
