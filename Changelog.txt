@@ -1,4 +1,6 @@
-﻿- Include hotels when rebuilding CitizenUnit arrays
+﻿Version 1.1.3 -
+
+- Include hotels when rebuilding CitizenUnit arrays
 - Update AlgernonCommons
 - Update bundled CitiesHarmony
 
