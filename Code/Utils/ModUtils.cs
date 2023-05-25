@@ -9,7 +9,6 @@ namespace MoreCitizenUnits
     using System.Reflection;
     using AlgernonCommons;
     using ColossalFramework;
-    using ColossalFramework.Plugins;
 
     /// <summary>
     /// Class that manages interactions with other mods, including compatibility and functionality checks.
@@ -20,7 +19,7 @@ namespace MoreCitizenUnits
         private static Assembly tmpe;
 
         /// <summary>
-        /// The TM:PE assembly reference.
+        /// Gets the TM:PE assembly reference.
         /// </summary>
         internal static Assembly TMPE
         {
@@ -28,41 +27,11 @@ namespace MoreCitizenUnits
             {
                 if (tmpe == null)
                 {
-                    tmpe = GetEnabledAssembly("TrafficManager");
+                    tmpe = AssemblyUtils.GetEnabledAssembly("TrafficManager");
                 }
 
                 return tmpe;
             }
-        }
-
-        /// <summary>
-        /// Checks to see if another mod is installed and enabled, based on a provided assembly name, and if so, returns the assembly reference.
-        /// Case-sensitive!  PloppableRICO is not the same as ploppablerico!
-        /// </summary>
-        /// <param name="assemblyName">Name of the mod assembly</param>
-        /// <returns>Assembly reference if target is found and enabled, null otherwise</returns>
-        internal static Assembly GetEnabledAssembly(string assemblyName)
-        {
-            // Iterate through the full list of plugins.
-            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo())
-            {
-                // Only looking at enabled plugins.
-                if (plugin.isEnabled)
-                {
-                    foreach (Assembly assembly in plugin.GetAssemblies())
-                    {
-                        if (assembly.GetName().Name.Equals(assemblyName))
-                        {
-                            Logging.Message("found enabled mod assembly ", assemblyName, ", version ", assembly.GetName().Version);
-                            return assembly;
-                        }
-                    }
-                }
-            }
-
-            // If we've made it here, then we haven't found a matching assembly.
-            Logging.Message("didn't find enabled assembly ", assemblyName);
-            return null;
         }
 
         /// <summary>

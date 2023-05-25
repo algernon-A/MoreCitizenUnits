@@ -68,8 +68,8 @@ namespace MoreCitizenUnits
 
             // Check and fix checkbox.
             UICheckBox fixCheck = UICheckBoxes.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_FIX"));
-            fixCheck.isChecked = CitizenDeserialize.s_checkUnits;
-            fixCheck.eventCheckChanged += (c, value) => { CitizenDeserialize.s_checkUnits = value; };
+            fixCheck.isChecked = CitizenDeserialize.CheckUnits;
+            fixCheck.eventCheckChanged += (c, value) => { CitizenDeserialize.CheckUnits = value; };
             currentY += fixCheck.height + TitleMargin;
 
             // Nuke checkbox.

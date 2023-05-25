@@ -29,7 +29,7 @@ namespace MoreCitizenUnits
         /// Gets or sets a value indicating whether invalid units should be checked for and fixed on load.
         /// </summary>
         [XmlElement("CheckUnits")]
-        public bool XMLCheckUnits { get => CitizenDeserialize.s_checkUnits; set => CitizenDeserialize.s_checkUnits = value; }
+        public bool XMLCheckUnits { get => CitizenDeserialize.CheckUnits; set => CitizenDeserialize.CheckUnits = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to perform a full reset of the CitizenUnit array on load.

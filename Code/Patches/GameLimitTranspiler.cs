@@ -16,14 +16,14 @@ namespace MoreCitizenUnits
     /// Harmony transpilers to replace hardcoded CitizenUnit limits in the game.
     /// </summary>
     [HarmonyPatch]
-    public static class GameLimitTranspiler
+    internal static class GameLimitTranspiler
     {
         /// <summary>
         /// Determines list of target methods to patch - in this case, identified methods with hardcoded CitizenUnit limits.
         /// This includes CitizenManager.Awake where the CitizenUnits array is created; overriding the value here automatically creates arrays of the correct new size.
         /// </summary>
-        /// <returns>List of target methods to patch</returns>
-        public static IEnumerable<MethodBase> TargetMethods()
+        /// <returns>List of target methods to patch.</returns>
+        private static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(CitizenManager), "Awake");
             yield return AccessTools.Method(typeof(BuildingAI), "EnsureCitizenUnits");
@@ -59,28 +59,13 @@ namespace MoreCitizenUnits
             yield return AccessTools.Method(typeof(Building), nameof(Building.GetNotFullCitizenUnit));
             yield return AccessTools.Method(typeof(Building), nameof(Building.FindCitizenUnit));
             yield return AccessTools.Method(typeof(BuildingManager.Data), nameof(BuildingManager.Data.AfterDeserialize));
-            // ResidentAI.SimulationStep (any of 3) has no checks
-            // ResidentAI.UnitHasChild has no checks
             yield return AccessTools.Method(typeof(ResidentAI), "FinishSchoolOrWork");
-            // ResidentAI.StartTransfer has no checks
             yield return AccessTools.Method(typeof(ResidentAI), "TryJoinVehicle");
             yield return AccessTools.Method(typeof(TouristAI), "TryJoinVehicle");
-            // Citizen.SetHome has no checks
-            // Citizen.SetWorkplace has no checks
-            // Citizen.SetStudentplace has no checks
-            // Citizen.SetVisitplace has no checks
-            // Citizen.SetVehicle has no checks
             yield return AccessTools.Method(typeof(Citizen), nameof(Citizen.GetContainingUnit));
             yield return AccessTools.Method(typeof(Citizen), nameof(Citizen.AddToUnits));
             yield return AccessTools.Method(typeof(Citizen), nameof(Citizen.RemoveFromUnits));
-            // CizenManager.Awake - arrays are initialized here
-            // CitizenManager.CreateUnits has no checks
             yield return AccessTools.Method(typeof(CitizenManager), nameof(CitizenManager.ReleaseUnits));
-            // CitizenManager.ReleaseUnitImplementation has no checks
-            // CitizenManager.SimulationStepImpl - simulation framing is here (128 units per step)
-            // CitizenManager.Data.Serialize has no checks
-            // CitizenManager.Data.Deserialize is patched in CitizenDeserialize
-            // CitizenManager.Data.AfterDeserialize has no checks
             yield return AccessTools.Method(typeof(DisasterHelpers), nameof(DisasterHelpers.RemovePeople));
             yield return AccessTools.Method(typeof(DisasterHelpers), nameof(DisasterHelpers.SavePeople));
             yield return AccessTools.Method(typeof(EventAI), nameof(EventAI.CountVisitors));
@@ -96,7 +81,6 @@ namespace MoreCitizenUnits
             yield return AccessTools.Method(typeof(AmbulanceAI), "ArriveAtSource");
             yield return AccessTools.Method(typeof(AmbulanceCopterAI), "GetPatientCitizen");
             yield return AccessTools.Method(typeof(AmbulanceCopterAI), nameof(AmbulanceCopterAI.CanLeave));
-            // BicycleAI.SimulationStep (any of 2) has no checks
             yield return AccessTools.Method(typeof(BicycleAI), "GetDriverInstance");
             yield return AccessTools.Method(typeof(BusAI), nameof(BusAI.TransportArriveAtTarget));
             yield return AccessTools.Method(typeof(DisasterResponseCopterAI), nameof(DisasterResponseCopterAI.CanLeave));
@@ -122,11 +106,8 @@ namespace MoreCitizenUnits
             yield return AccessTools.Method(typeof(TrolleybusAI), nameof(TrolleybusAI.TransportArriveAtTarget));
             yield return AccessTools.Method(typeof(VehicleAI), "EnsureCitizenUnits");
             yield return AccessTools.Method(typeof(VehicleAI), nameof(VehicleAI.CanLeave));
-            // Vehicle.GetTargetFrame has no checks
             yield return AccessTools.Method(typeof(Vehicle), nameof(Vehicle.GetNotFullCitizenUnit));
             yield return AccessTools.Method(typeof(VehicleManager.Data), nameof(VehicleManager.Data.AfterDeserialize));
-            // CitizenManager.SimulationStepImpl is patched in SimulationStepImplPatch.
-            // CityServiceWorldInfoPanel.UpdateWorkers
             yield return AccessTools.Method(typeof(AirportBuildingAI), "HandleDead");
             yield return AccessTools.Method(typeof(AirportCargoGateAI), "HandleDead");
             yield return AccessTools.Method(typeof(AirportGateAI), "HandleDead");
@@ -136,10 +117,10 @@ namespace MoreCitizenUnits
         /// Harmony transpiler to replace hardcoded CitizenUnit limits.
         /// Finds ldc.i4 524288 (which is unique in game code to the CitizenUnit limit checks) and replaces the operand with our updated maximum.
         /// </summary>
-        /// <param name="original">Original (target) method</param>
-        /// <param name="instructions">Original ILCode</param>
-        /// <returns>Patched ILCode</returns>
-        public static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions)
+        /// <param name="original">Method being transpiled.</param>
+        /// <param name="instructions">Original ILCode.</param>
+        /// <returns>Modified ILCode.</returns>
+        private static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions)
         {
             // Instruction parsing.
             IEnumerator<CodeInstruction> instructionsEnumerator = instructions.GetEnumerator();

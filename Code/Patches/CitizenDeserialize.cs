@@ -19,22 +19,35 @@ namespace MoreCitizenUnits
     [HarmonyPatch(typeof(CitizenManager.Data), nameof(CitizenManager.Data.Deserialize))]
     public static class CitizenDeserialize
     {
-        // Constants.
+        /// <summary>
+        /// Expanded unit count.
+        /// </summary>
+        internal const uint NewUnitCount = ExtraUnitCount + OriginalUnitCount;
+
+        // Private constants.
         private const int OriginalUnitCount = 524288;
         private const int ExtraUnitCount = OriginalUnitCount;
-        internal const uint NewUnitCount = ExtraUnitCount + OriginalUnitCount;
-        
+
         // Automatically double limits on virgin savegames.
         private static bool s_doubleLimit = true;
 
-        // Check for (and fix) invalid units on load.
-        internal static bool s_checkUnits = false;
-
-        // Status flag - are we loading an expanded CitizenUnit array?
-        internal static bool s_loadingExpanded = false;
+        /// <summary>
+        /// Gets the correct size to deserialize a saved game array.
+        /// </summary>
+        public static uint DeserialiseSize => LoadingExpanded ? NewUnitCount : OriginalUnitCount;
 
         /// <summary>
-        /// Activates CitizenUnit limit doubling.
+        /// Gets or sets a value indicating whether invalid units should be checked for and fixed on load.
+        /// </summary>
+        internal static bool CheckUnits { get; set; } = false;
+
+        /// <summary>
+        /// Gets  a value indicating whether an expanded CitizenUnit array is being loaded.
+        /// </summary>
+        internal static bool LoadingExpanded { get; private set; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether CitizenUnit limit doubling is enabled.
         /// </summary>
         internal static bool DoubleLimit
         {
@@ -46,9 +59,9 @@ namespace MoreCitizenUnits
         /// <summary>
         /// Harmony Transpilier for CitizenManager.Data.Deserialize to increase the size of the CitizenUnit array at deserialization.
         /// </summary>
-        /// <param name="instructions">Original ILCode instructions</param>
-        /// <returns></returns>
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        /// <param name="instructions">Original ILCode.</param>
+        /// <returns>Modified ILCode.</returns>
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             // Local variable ILCode indexes (original method).
             const int num2VarIndex = 6;
@@ -80,13 +93,13 @@ namespace MoreCitizenUnits
                         inserted = true;
 
                         // Insert new instruction, calling DeserializeSize to determine correct buffer size to deserialize.
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(CitizenDeserialize), nameof(CitizenDeserialize.DeserialiseSize)).GetGetMethod());
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(CitizenDeserialize), nameof(DeserialiseSize)).GetGetMethod());
 
                         // Iterate forward, dropping all instructions until we reach our target (next stloc.s 6), then continue on as normal.
                         do
                         {
                             // This should never happen, but just in case....
-                            if(!instructionsEnumerator.MoveNext())
+                            if (!instructionsEnumerator.MoveNext())
                             {
                                 Logging.Error("Couldn't find Stloc_S");
                                 yield break;
@@ -109,15 +122,15 @@ namespace MoreCitizenUnits
         /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
         /// </summary>
         [HarmonyPriority(Priority.First)]
-        public static void Prefix()
+        private static void Prefix()
         {
             Logging.Message("starting CitizenManager.Data.Deserialize Prefix");
 
             // Detect if we're loading an expanded or original CitizenUnit array.
-            s_loadingExpanded = MetaData.LoadingExtended;
+            LoadingExpanded = MetaData.LoadingExtended;
 
             // If we're loading expanded data, automatically set double limit desearalization.
-            bool usingDouble = s_doubleLimit | s_loadingExpanded;
+            bool usingDouble = s_doubleLimit | LoadingExpanded;
 
             // Check to see if CitizenUnit array has been correctly resized.
             Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
@@ -127,7 +140,7 @@ namespace MoreCitizenUnits
                 if (usingDouble)
                 {
                     // If we're expanding from vanilla saved data, ensure the CitizenUnit array is clear to start with (just in case).
-                    if (!s_loadingExpanded)
+                    if (!LoadingExpanded)
                     {
                         Logging.KeyMessage("expanding from Vanilla save data");
                         Array.Clear(units.m_buffer, 0, units.m_buffer.Length);
@@ -167,7 +180,7 @@ namespace MoreCitizenUnits
         /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
         /// </summary>
         [HarmonyPriority(Priority.First)]
-        public static void Postfix()
+        private static void Postfix()
         {
             // Local references.
             Array32<CitizenUnit> unitArray = Singleton<CitizenManager>.instance.m_units;
@@ -176,7 +189,7 @@ namespace MoreCitizenUnits
             Logging.Message("starting CitizenManager.Data.Deserialize Postfix with unitBuffer size ", unitBuffer.Length);
 
             // If expanding from vanilla saved data, ensure all new units are properly cleared.
-            if (!s_loadingExpanded)
+            if (!LoadingExpanded)
             {
                 // Iterate through each unit in buffer.
                 for (uint i = OriginalUnitCount; i < unitBuffer.Length; ++i)
@@ -196,10 +209,5 @@ namespace MoreCitizenUnits
 
             Logging.Message("finished CitizenManager.Data.Deserialize Postfix");
         }
-
-        /// <summary>
-        /// Returns the correct size to deserialize a saved game array.
-        /// </summary>
-        public static uint DeserialiseSize => s_loadingExpanded ? NewUnitCount : OriginalUnitCount;
     }
 }
