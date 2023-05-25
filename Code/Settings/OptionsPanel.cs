@@ -52,8 +52,8 @@ namespace MoreCitizenUnits
             UISpacers.AddTitleSpacer(this, Margin, currentY, titleWidth, Translations.Translate("MCU_BOOST"));
             currentY += GroupMargin;
             UICheckBox doubleCheck = UICheckBoxes.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_X2"));
-            doubleCheck.isChecked = CitizenDeserialze.DoubleLimit;
-            doubleCheck.eventCheckChanged += (c, value) => { CitizenDeserialze.DoubleLimit = value; };
+            doubleCheck.isChecked = CitizenDeserialize.DoubleLimit;
+            doubleCheck.eventCheckChanged += (c, value) => { CitizenDeserialize.DoubleLimit = value; };
             currentY += doubleCheck.height + Margin;
 
             // Add double units text.
@@ -68,8 +68,8 @@ namespace MoreCitizenUnits
 
             // Check and fix checkbox.
             UICheckBox fixCheck = UICheckBoxes.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_FIX"));
-            fixCheck.isChecked = CitizenDeserialze.s_checkUnits;
-            fixCheck.eventCheckChanged += (c, value) => { CitizenDeserialze.s_checkUnits = value; };
+            fixCheck.isChecked = CitizenDeserialize.s_checkUnits;
+            fixCheck.eventCheckChanged += (c, value) => { CitizenDeserialize.s_checkUnits = value; };
             currentY += fixCheck.height + TitleMargin;
 
             // Nuke checkbox.

@@ -33,7 +33,7 @@ namespace MoreCitizenUnits
             bool foundTarget = false;
 
             // New frame size (4096 frames).
-            int newFrame = (int)CitizenDeserialze.NewUnitCount / 4096;
+            int newFrame = (int)CitizenDeserialize.NewUnitCount / 4096;
 
             // Iterate through all instructions in original method.
             while (instructionsEnumerator.MoveNext())

@@ -30,7 +30,7 @@ namespace MoreCitizenUnits.Code.Patches
             Logging.Message("starting CitizenManager.Data.AfterDeserialize Postfix with unitBuffer size ", Singleton<CitizenManager>.instance.m_units.m_buffer.Length);
 
             // Check for and fix invalid units, if set, or if expanding from Vanilla (needed to properly reset unused unit count and list of newly-expanded vanilla array).
-            if ((CitizenDeserialze.s_checkUnits && !LoadLevelComplete.NukeAll) || !CitizenDeserialze.s_loadingExpanded)
+            if ((CitizenDeserialize.s_checkUnits && !LoadLevelComplete.NukeAll) || !CitizenDeserialize.s_loadingExpanded)
             {
                 Logging.Message("checking units");
 

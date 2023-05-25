@@ -47,7 +47,7 @@ namespace MoreCitizenUnits
             }
 
             // Check for successful implementation.
-            if (bufferSize == CitizenDeserialze.NewUnitCount)
+            if (bufferSize == CitizenDeserialize.NewUnitCount)
             {
                 // Buffer successfully enlarged - set simulation metatdata flag.
                 MetaData.SetMetaData();

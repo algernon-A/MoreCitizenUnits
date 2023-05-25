@@ -17,7 +17,7 @@ namespace MoreCitizenUnits
     /// Harmony patch to handle deserialization of game CitizenUnit data.
     /// </summary>
     [HarmonyPatch(typeof(CitizenManager.Data), nameof(CitizenManager.Data.Deserialize))]
-    public static class CitizenDeserialze
+    public static class CitizenDeserialize
     {
         // Constants.
         private const int OriginalUnitCount = 524288;
@@ -80,7 +80,7 @@ namespace MoreCitizenUnits
                         inserted = true;
 
                         // Insert new instruction, calling DeserializeSize to determine correct buffer size to deserialize.
-                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(CitizenDeserialze), nameof(CitizenDeserialze.DeserialiseSize)).GetGetMethod());
+                        yield return new CodeInstruction(OpCodes.Call, AccessTools.Property(typeof(CitizenDeserialize), nameof(CitizenDeserialize.DeserialiseSize)).GetGetMethod());
 
                         // Iterate forward, dropping all instructions until we reach our target (next stloc.s 6), then continue on as normal.
                         do

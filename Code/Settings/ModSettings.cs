@@ -23,13 +23,13 @@ namespace MoreCitizenUnits
         /// Gets or sets a value indicating whether CitizenUnit limit doubling is enabled.
         /// </summary>
         [XmlElement("DoubleUnits")]
-        public bool XMLDoubleUnits { get => CitizenDeserialze.DoubleLimit; set => CitizenDeserialze.DoubleLimit = value; }
+        public bool XMLDoubleUnits { get => CitizenDeserialize.DoubleLimit; set => CitizenDeserialize.DoubleLimit = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether invalid units should be checked for and fixed on load.
         /// </summary>
         [XmlElement("CheckUnits")]
-        public bool XMLCheckUnits { get => CitizenDeserialze.s_checkUnits; set => CitizenDeserialze.s_checkUnits = value; }
+        public bool XMLCheckUnits { get => CitizenDeserialize.s_checkUnits; set => CitizenDeserialize.s_checkUnits = value; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to perform a full reset of the CitizenUnit array on load.

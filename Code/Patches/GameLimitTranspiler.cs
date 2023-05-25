@@ -79,7 +79,7 @@ namespace MoreCitizenUnits
             // CitizenManager.ReleaseUnitImplementation has no checks
             // CitizenManager.SimulationStepImpl - simulation framing is here (128 units per step)
             // CitizenManager.Data.Serialize has no checks
-            // CitizenManager.Data.Deserialize is patched in CitizenDeserialze
+            // CitizenManager.Data.Deserialize is patched in CitizenDeserialize
             // CitizenManager.Data.AfterDeserialize has no checks
             yield return AccessTools.Method(typeof(DisasterHelpers), nameof(DisasterHelpers.RemovePeople));
             yield return AccessTools.Method(typeof(DisasterHelpers), nameof(DisasterHelpers.SavePeople));
@@ -158,7 +158,7 @@ namespace MoreCitizenUnits
                 if (instruction.opcode == OpCodes.Ldc_I4 && instruction.operand is int thisInt && thisInt == 524288)
                 {
                     // Yes - change operand to our new unit count max.
-                    instruction.operand = (int)CitizenDeserialze.NewUnitCount;
+                    instruction.operand = (int)CitizenDeserialize.NewUnitCount;
 
                     // Set flag.
                     foundTarget = true;
