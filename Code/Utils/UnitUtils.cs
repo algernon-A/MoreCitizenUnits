@@ -50,7 +50,7 @@ namespace MoreCitizenUnits
 			ResetBuildings(citizenManager, buildingManager, buildingBuffer);
 
 			// Reset vehicles.
-			ResetVehicles(citizenManager, vehicleManager, vehicleBuffer);
+			ResetVehicles(citizenManager, vehicleBuffer);
 
 			// Iterate through each unit in the old buffer.
 			Logging.Message("copying CitizenUnit data");
@@ -178,11 +178,11 @@ namespace MoreCitizenUnits
 		/// <summary>
 		/// Tries to copy a CitizenUnit into the given CitizenUnit chain.
 		/// </summary>
-		/// <param name="startUnit">Starting CitizenUnit of (new) chain</param>
-		/// <param name="oldUnit">Old CitizenUnit to copy</param>
-		/// <param name="newUnitBuffer">New CitizenUnit buffer to copy into</param>
-		/// <param name="preserveExisting">Preserve existing units where possible</param>
-		/// <returns>True if copying was succesful, false otherwise (if no empty unit in the chain was found)</returns>
+		/// <param name="startUnit">Starting CitizenUnit of (new) chain.</param>
+		/// <param name="oldUnit">Old CitizenUnit to copy.</param>
+		/// <param name="newUnitBuffer">New CitizenUnit buffer to copy into.</param>
+		/// <param name="preserveExisting">Preserve existing units where possible.</param>
+		/// <returns>True if copying was succesful, false otherwise (if no empty unit in the chain was found).</returns>
 		private static bool CopyUnit(uint startUnit, ref CitizenUnit oldUnit, CitizenUnit[] newUnitBuffer, bool preserveExisting)
 		{
 			uint newUnitID = startUnit;
@@ -242,9 +242,9 @@ namespace MoreCitizenUnits
 		/// <summary>
 		/// Resets the CitizenUnits for all buildings on the map.
 		/// </summary>
-		/// <param name="citizenManager">Citizen manager reference</param>
-		/// <param name="buildingManager">Building manager reference</param>
-		/// <param name="buildingBuffer">Building buffer reference</param>
+		/// <param name="citizenManager">Citizen manager reference.</param>
+		/// <param name="buildingManager">Building manager reference.</param>
+		/// <param name="buildingBuffer">Building buffer reference.</param>
 		private static void ResetBuildings(CitizenManager citizenManager, BuildingManager buildingManager, Building[] buildingBuffer)
 		{
 			Logging.Message("resetting buildings");
@@ -261,7 +261,7 @@ namespace MoreCitizenUnits
 				}
 
 				// Required household and citizen counts.
-				int homeCount = 0, visitCount = 0, workCount = 0, passengerCount = 0, studentCount = 0;
+				int homeCount = 0, visitCount = 0, workCount = 0, passengerCount = 0, studentCount = 0, hotelCount = 0;
 
 				// Assign home, visit, work, and/or student counts based on building AI.
 				switch (info.m_buildingAI)
@@ -475,6 +475,10 @@ namespace MoreCitizenUnits
 						workCount = weatherRadarAI.m_workPlaceCount0 + weatherRadarAI.m_workPlaceCount1 + weatherRadarAI.m_workPlaceCount2 + weatherRadarAI.m_workPlaceCount3;
 						break;
 
+					case HotelAI hotelAI:
+						hotelCount = hotelAI.m_rooms;
+						break;
+
 					default:
 						// If not explicitly covered above, skip to next building.
 						continue;
@@ -487,13 +491,12 @@ namespace MoreCitizenUnits
 			Logging.Message("finished resetting buildings");
 		}
 
-		/// <summary>
-		/// Resets the CitizenUnits for all vehicles on the map.
-		/// </summary>
-		/// <param name="citizenManager">Citizen manager reference</param>
-		/// <param name="vehicleManager">Vehicle manager reference</param>
-		/// <param name="vehicleBuffer">Vehicle buffer reference</param>
-		private static void ResetVehicles(CitizenManager citizenManager, VehicleManager vehicleManager, Vehicle[] vehicleBuffer)
+        /// <summary>
+        /// Resets the CitizenUnits for all vehicles on the map.
+        /// </summary>
+        /// <param name="citizenManager">Citizen manager instance.</param>
+        /// <param name="vehicleBuffer">Vehicle buffer instance.</param>
+        private static void ResetVehicles(CitizenManager citizenManager, Vehicle[] vehicleBuffer)
 		{
 			Logging.Message("resetting vehicles");
 
@@ -610,17 +613,18 @@ namespace MoreCitizenUnits
 			Logging.Message("finished resetting vehicles");
 		}
 
-		/// <summary>
-		/// Ensures correct allocation of CitizenUnits to a building.
-		/// Based on game's method.
-		/// </summary>
-		/// <param name="buildingID">Building ID</param>
-		/// <param name="data">Building data reference</param>
-		/// <param name="homeCount">Number of households to allocate</param>
-		/// <param name="workCount">Number of workplaces to allocate</param>
-		/// <param name="visitCount">Number of visitor places to allocate</param>
-		/// <param name="studentCount">Number of student places to allocate</param>
-		private static void EnsureCitizenUnits(ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount)
+        /// <summary>
+        /// Ensures correct allocation of CitizenUnits to a building.
+        /// Based on game's method.
+        /// </summary>
+        /// <param name="buildingID">Building ID.</param>
+        /// <param name="data">Building data reference.</param>
+        /// <param name="homeCount">Number of households to allocate.</param>
+        /// <param name="workCount">Number of workplaces to allocate.</param>
+        /// <param name="visitCount">Number of visitor places to allocate<./param>
+        /// <param name="studentCount">Number of student places to allocate.</param>
+        /// <param name="hotelCount">Number of hotel visitor places to allocate.</param>
+        private static void EnsureCitizenUnits(ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount, int hotelCount)
         {
 			// Don't allocate units to abandoned or collapsed buildings.
 			if ((data.m_flags & (Building.Flags.Abandoned | Building.Flags.Collapsed)) != 0)
@@ -658,6 +662,10 @@ namespace MoreCitizenUnits
 				{
 					studentCount -= 5;
 				}
+				if ((flags & CitizenUnit.Flags.Hotel) != 0)
+				{
+					hotelCount -= 5;
+				}
 				previousCitizenUnit = currentCitizenUnit;
 				currentCitizenUnit = citizenUnitBuffer[currentCitizenUnit].m_nextUnit;
 			}
@@ -670,7 +678,7 @@ namespace MoreCitizenUnits
 				return;
 			}
 			uint firstUnit;
-			if (citizenManager.CreateUnits(out firstUnit, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, homeCount, workCount, visitCount, 0, studentCount))
+			if (citizenManager.CreateUnits(out firstUnit, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, homeCount, workCount, visitCount, 0, studentCount, hotelCount))
 			{
 				if (previousCitizenUnit != 0)
 				{

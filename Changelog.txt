@@ -1,4 +1,5 @@
-﻿- Update AlgernonCommons
+﻿- Include hotels when rebuilding CitizenUnit arrays
+- Update AlgernonCommons
 - Update bundled CitiesHarmony
 
 
