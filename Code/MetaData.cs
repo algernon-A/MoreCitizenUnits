@@ -18,7 +18,7 @@ namespace MoreCitizenUnits
         private static readonly string MetadataKey = "User/More CitizenUnits x2";
 
         /// <summary>
-        /// Returns whether (true) or not (false) this save was made using using an expanded CitizenUnit array.
+        /// Gets a value indicating whether this save was made using using an expanded CitizenUnit array.
         /// </summary>
         internal static bool LoadingExtended
         {
@@ -56,6 +56,7 @@ namespace MoreCitizenUnits
         internal static void SetMetaData()
         {
             Logging.Message("setting simulation metadata");
+
             // Try to get simulation manager metadata dictionary of mod override flags.
             SimulationMetaData metaData = Singleton<SimulationManager>.instance.m_metaData;
             lock (metaData)
