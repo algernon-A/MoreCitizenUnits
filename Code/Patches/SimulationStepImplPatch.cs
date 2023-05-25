@@ -1,4 +1,4 @@
-﻿// <copyright file="SimulationStepImpl.cs" company="algernon (K. Algernon A. Sheppard)">
+﻿// <copyright file="SimulationStepImplPatch.cs" company="algernon (K. Algernon A. Sheppard)">
 // Copyright (c) algernon (K. Algernon A. Sheppard). All rights reserved.
 // Licensed under the MIT license. See LICENSE.txt file in the project root for full license information.
 // </copyright>
@@ -13,15 +13,15 @@ namespace MoreCitizenUnits
     /// <summary>
     /// Harmony transpiler to increase simulation CitizenUnit frame size to meet new limit.
     /// </summary>
-    public static class SimulationStepImplPatch
+    internal static class SimulationStepImplPatch
     {
         /// <summary>
         /// Harmony transpiler to increase simulation CitizenUnit frame size to meet new limit.
         /// Finds ldc.i4 128 (which is unique in this method's game code to the CitizenUnit framing) and replaces the operand with our updated maximum.
         /// </summary>
-        /// <param name="instructions">Original ILCode</param>
-        /// <returns>Patched ILCode</returns>
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        /// <param name="instructions">Original ILCode.</param>
+        /// <returns>Modified ILCode.</returns>
+        internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             // Instruction parsing.
             IEnumerator<CodeInstruction> instructionsEnumerator = instructions.GetEnumerator();

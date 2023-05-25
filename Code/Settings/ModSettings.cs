@@ -5,93 +5,46 @@
 
 namespace MoreCitizenUnits
 {
-    using System;
     using System.IO;
     using System.Xml.Serialization;
-    using AlgernonCommons;
-    using AlgernonCommons.Translation;
+    using AlgernonCommons.XML;
 
     /// <summary>
     /// Global mod settings.
     /// </summary>
-	[XmlRoot("MoreCitizenUnits")]
-    public class ModSettings
+    [XmlRoot("MoreCitizenUnits")]
+    public class ModSettings : SettingsXMLBase
     {
         // Settings file name.
         [XmlIgnore]
         private static readonly string SettingsFileName = Path.Combine(ColossalFramework.IO.DataLocation.localApplicationData, "MoreCitizenUnits.xml");
 
-        // Perform a full reset of the CitizenUnit array on load.
-        [XmlIgnore]
-        internal static bool nukeAll = false;
-
-        // Language.
-        [XmlElement("Language")]
-        public string Language
-        {
-            get => Translations.CurrentLanguage;
-
-            set => Translations.CurrentLanguage = value;
-        }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether CitizenUnit limit doubling is enabled.
+        /// </summary>
         [XmlElement("DoubleUnits")]
         public bool XMLDoubleUnits { get => CitizenDeserialze.DoubleLimit; set => CitizenDeserialze.DoubleLimit = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether invalid units should be checked for and fixed on load.
+        /// </summary>
         [XmlElement("CheckUnits")]
         public bool XMLCheckUnits { get => CitizenDeserialze.s_checkUnits; set => CitizenDeserialze.s_checkUnits = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to perform a full reset of the CitizenUnit array on load.
+        /// </summary>
         [XmlElement("ResetUnits")]
-        public bool XMLResetUnits { get => nukeAll; set => nukeAll = value; }
+        public bool XMLResetUnits { get => LoadLevelComplete.NukeAll; set => LoadLevelComplete.NukeAll = value; }
 
         /// <summary>
-        /// Load settings from XML file.
+        /// Loads settings from file.
         /// </summary>
-        internal static void Load()
-        {
-            try
-            {
-                // Check to see if configuration file exists.
-                if (File.Exists(SettingsFileName))
-                {
-                    // Read it.
-                    using (StreamReader reader = new StreamReader(SettingsFileName))
-                    {
-                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
-                        if (!(xmlSerializer.Deserialize(reader) is ModSettings settingsFile))
-                        {
-                            Logging.Error("couldn't deserialize settings file");
-                        }
-                    }
-                }
-                else
-                {
-                    Logging.Message("no settings file found");
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception reading XML settings file");
-            }
-        }
+        internal static void Load() => XMLFileUtils.Load<ModSettings>(SettingsFileName);
 
         /// <summary>
-        /// Save settings to XML file.
+        /// Saves settings to file.
         /// </summary>
-        internal static void Save()
-        {
-            try
-            {
-                // Pretty straightforward.  Serialisation is within GBRSettingsFile class.
-                using (StreamWriter writer = new StreamWriter(SettingsFileName))
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ModSettings));
-                    xmlSerializer.Serialize(writer, new ModSettings());
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.LogException(e, "exception saving XML settings file");
-            }
-        }
+        internal static void Save() => XMLFileUtils.Save<ModSettings>(SettingsFileName);
     }
 }

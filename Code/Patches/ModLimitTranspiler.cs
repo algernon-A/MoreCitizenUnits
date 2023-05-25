@@ -16,11 +16,11 @@ namespace MoreCitizenUnits
     internal static class ModLimitTranspiler
     {
         /// <summary>
-        /// Attempts to transpile hardcoded CitizenUnit limits in the given method from the given type. 
+        /// Attempts to transpile hardcoded CitizenUnit limits in the given method from the given type.
         /// </summary>
-        /// <param name="harmony">Harmony instance</param>
-        /// <param name="type">Type to reflect</param>
-        /// <param name="methodName">Method name to reflect</param>
+        /// <param name="harmony">Harmony instance.</param>
+        /// <param name="type">Type to patch.</param>
+        /// <param name="methodName">Method to patch.</param>
         private static void PatchModMethod(Harmony harmony, Type type, string methodName)
         {
             // Check that reflection succeeded before proceeding,
@@ -45,11 +45,11 @@ namespace MoreCitizenUnits
             if (method == null)
             {
                 Logging.Error("unable to reflect ", methodName);
-                return; 
+                return;
             }
 
             // If we got here, all good; apply transpiler.
-            Logging.Message("transpiling ", type , ":", methodName);
+            Logging.Message("transpiling ", type, ":", methodName);
             harmony.Patch(method, transpiler: new HarmonyMethod(typeof(GameLimitTranspiler), nameof(GameLimitTranspiler.Transpiler)));
         }
     }

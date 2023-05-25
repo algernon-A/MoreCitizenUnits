@@ -74,8 +74,8 @@ namespace MoreCitizenUnits
 
             // Nuke checkbox.
             UICheckBox nukeCheck = UICheckBoxes.AddPlainCheckBox(this, Margin, currentY, Translations.Translate("MCU_NUKE"));
-            nukeCheck.isChecked = ModSettings.nukeAll;
-            nukeCheck.eventCheckChanged += (c, value) => { ModSettings.nukeAll = value; };
+            nukeCheck.isChecked = LoadLevelComplete.NukeAll;
+            nukeCheck.eventCheckChanged += (c, value) => { LoadLevelComplete.NukeAll = value; };
             currentY += nukeCheck.height + Margin;
 
             // Add nuke options text.

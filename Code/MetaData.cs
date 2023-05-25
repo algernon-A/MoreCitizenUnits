@@ -9,11 +9,13 @@ namespace MoreCitizenUnits
     using AlgernonCommons;
     using ColossalFramework;
 
+    /// <summary>
+    /// Save metadata handling.
+    /// </summary>
     internal static class MetaData
     {
         // Metadata key for storing mod override flag in simulation maetadata.
         private static readonly string MetadataKey = "User/More CitizenUnits x2";
-
 
         /// <summary>
         /// Returns whether (true) or not (false) this save was made using using an expanded CitizenUnit array.

@@ -10,27 +10,29 @@ namespace MoreCitizenUnits.Code.Patches
     using ColossalFramework;
     using HarmonyLib;
 
-    public static class AfterDeserialize
+    /// <summary>
+    /// Harmony patch for post-deserialization cleanups.
+    /// </summary>
+    internal static class AfterDeserialize
     {
         [HarmonyPatch(typeof(CitizenManager.Data), nameof(CitizenManager.Data.AfterDeserialize))]
-        public static class CheckUnits
+        internal static class CheckUnits
         {
             /// <summary>
             /// Harmony Postfix patch for CitizenManager.Data.AfterDeserialze to peform post-deserialization cleanups.
             /// Highest priority, to try and make sure array setup is done before any other mod tries to read the array.
             /// </summary>
             [HarmonyPriority(Priority.First)]
-            public static void Postfix()
+            internal static void Postfix()
             {
                 // Local references.
                 Array32<CitizenUnit> unitArray = Singleton<CitizenManager>.instance.m_units;
                 CitizenUnit[] unitBuffer = unitArray.m_buffer;
 
-
                 Logging.Message("starting CitizenManager.Data.AfterDeserialize Postfix with unitBuffer size ", Singleton<CitizenManager>.instance.m_units.m_buffer.Length);
 
                 // Check for and fix invalid units, if set, or if expanding from Vanilla (needed to properly reset unused unit count and list of newly-expanded vanilla array).
-                if ((CitizenDeserialze.s_checkUnits && !ModSettings.nukeAll) || !CitizenDeserialze.s_loadingExpanded)
+                if ((CitizenDeserialze.s_checkUnits && !LoadLevelComplete.NukeAll) || !CitizenDeserialze.s_loadingExpanded)
                 {
                     Logging.Message("checking units");
 
@@ -54,7 +56,6 @@ namespace MoreCitizenUnits.Code.Patches
                         }
                         else
                         {
-
                             // Flags aren't empty - check for invalid units: ones flagged as 'Created', but with no building, vehicle, or citizen attached.
                             uint nextUnit = unitBuffer[i].m_nextUnit;
                             if ((unitBuffer[i].m_flags & CitizenUnit.Flags.Created) == CitizenUnit.Flags.None
@@ -64,8 +65,7 @@ namespace MoreCitizenUnits.Code.Patches
                                 && unitBuffer[i].m_citizen1 == 0
                                 && unitBuffer[i].m_citizen2 == 0
                                 && unitBuffer[i].m_citizen3 == 0
-                                && unitBuffer[i].m_citizen4 == 0
-                                )
+                                && unitBuffer[i].m_citizen4 == 0)
                             {
                                 Logging.Message("found empty unit ", i, " with invalid flags ", unitBuffer[i].m_flags);
                                 invalidUnits.Add(i);
@@ -84,6 +84,7 @@ namespace MoreCitizenUnits.Code.Patches
                             }
                         }
                     }
+
                     Logging.Message(invalidUnits.Count, " invalid units detected");
 
                     // Now, iterate through list of invalid units and clear all those without a m_nextUnit reference pointing TO them.
@@ -105,7 +106,6 @@ namespace MoreCitizenUnits.Code.Patches
 
                     Logging.Message("completed releasing ", clearedCount, " CitizenUnits with invalid flags");
                 }
-
 
                 Logging.Message("finished CitizenManager.Data.AfterDeserialize Postfix");
             }

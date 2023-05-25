@@ -15,12 +15,17 @@ namespace MoreCitizenUnits
     /// </summary>
     [HarmonyPatch(typeof(LoadingManager))]
     [HarmonyPatch("LoadLevelComplete")]
-    public static class LoadLevelComplete
+    internal static class LoadLevelComplete
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether to perform a full reset of the CitizenUnit array on load.
+        /// </summary>
+        internal static bool NukeAll { get; set; } = false;
+
         /// <summary>
         /// Harmony postfix to perform actions require after the level has loaded.
         /// </summary>
-        public static void Prefix()
+        internal static void Prefix()
         {
             // Get buffer size.
             Array32<CitizenUnit> units = Singleton<CitizenManager>.instance.m_units;
@@ -28,7 +33,7 @@ namespace MoreCitizenUnits
             Logging.Message("current CitizenUnit array size is ", bufferSize.ToString("N0"), " with m_size ", units.m_size.ToString("N0"));
 
             // If we're doing a clean reset, do so.
-            if (ModSettings.nukeAll)
+            if (NukeAll)
             {
                 // Don't preserve existing units by default.
                 UnitUtils.ResetUnits(false);
@@ -37,7 +42,7 @@ namespace MoreCitizenUnits
                 ModUtils.UpdateTMPEUnitsRef();
 
                 // Clear setting after use - supposed to be once-off.
-                ModSettings.nukeAll = false;
+                NukeAll = false;
                 ModSettings.Save();
             }
 
