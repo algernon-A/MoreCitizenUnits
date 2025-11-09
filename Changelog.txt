@@ -1,6 +1,6 @@
 ﻿Version 1.1.4 -
 
-- Use building lot size instead of prefab size when recalculating CitizenUnits for buildings with PrivateAI.
+- Use building lot size instead of prefab size when recalculating CitizenUnits for buildings with PrivateAI
 
 
 Version 1.1.3.1 -
