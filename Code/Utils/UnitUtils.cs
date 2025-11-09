@@ -276,9 +276,10 @@ namespace MoreCitizenUnits
                 switch (info.m_buildingAI)
                 {
                     case PrivateBuildingAI privateAI:
-                        homeCount = privateAI.CalculateHomeCount((ItemClass.Level)buildingBuffer[buildingID].m_level, new Randomizer(buildingID), info.m_cellWidth, info.m_cellLength);
-                        visitCount = privateAI.CalculateVisitplaceCount(info.GetClassLevel(), new Randomizer(buildingID), info.m_cellWidth, info.m_cellLength);
-                        privateAI.CalculateWorkplaceCount(info.GetClassLevel(), new Randomizer(buildingID), info.m_cellWidth, info.m_cellLength, out int level0, out int level1, out int level2, out int level3);
+                        ref Building building = ref buildingBuffer[buildingID];
+                        homeCount = privateAI.CalculateHomeCount((ItemClass.Level)building.m_level, new Randomizer(buildingID), building.Width, building.Length);
+                        visitCount = privateAI.CalculateVisitplaceCount((ItemClass.Level)building.m_level, new Randomizer(buildingID), building.Width, building.Length);
+                        privateAI.CalculateWorkplaceCount((ItemClass.Level)building.m_level, new Randomizer(buildingID), building.Width, building.Length, out int level0, out int level1, out int level2, out int level3);
                         workCount = level0 + level1 + level2 + level3;
                         break;
 
